@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app/core/constants/app_route_names.dart';
+import '../features/widgets/custom_app_bar.dart';
+import '../features/widgets/custom_bottom_navigation_bar.dart';
+import '../features/widgets/custom_sidebar.dart';
+
+class MainLayout extends StatefulWidget {
+  final Widget body;
+  final String title;
+  final int currentIndex;
+  final bool showBottomNav;
+  final bool isBackAction;
+  final bool isAvatarShow;
+  final Map<String, dynamic>? user;
+  final bool isSidebarEnabled;
+  final bool isCheckIn;
+  final VoidCallback? onCheckedIn;
+
+  final Map<String, dynamic>? hotelInfo;
+  const MainLayout({
+    super.key,
+    required this.body,
+    required this.title,
+    required this.currentIndex,
+    this.showBottomNav = true,
+    this.isBackAction = false,
+    this.isAvatarShow = true,
+    this.user,
+    this.isCheckIn = false,
+    this.isSidebarEnabled = false,
+    this.hotelInfo,
+    this.onCheckedIn,
+  });
+
+  @override
+  State<MainLayout> createState() => _MainLayoutState();
+}
+
+class _MainLayoutState extends State<MainLayout> {
+  final GlobalKey<CustomSidebarState> _sidebarKey = GlobalKey();
+
+  void _handleNavTap(int index) {
+    String routeName;
+    switch (index) {
+      case 0:
+        routeName = AppRouteNames.dashboard;
+        break;
+      case 1:
+        routeName = AppRouteNames.history;
+        break;
+      case 2:
+        routeName = AppRouteNames.settings;
+        break;
+      default:
+        routeName = AppRouteNames.dashboard;
+    }
+    if (ModalRoute.of(context)?.settings.name != routeName) {
+      Navigator.pushNamed(context, routeName);
+    }
+  }
+
+  void _toggleSidebar() {
+    _sidebarKey.currentState?.toggleSidebar();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scaffold = Scaffold(
+      appBar: CustomAppBar(
+        title: widget.title,
+
+        isBackAction: widget.isBackAction,
+        hotelInfo: widget.hotelInfo,
+        isSidebarEnabled: widget.isSidebarEnabled,
+        isUser: true,
+        isAvatarShow: widget.isAvatarShow,
+        user: widget.user,
+        isCheckIn: widget.isCheckIn,
+        onMenuPressed: _toggleSidebar,
+      ),
+
+      body: widget.body,
+      bottomNavigationBar:
+          widget.showBottomNav
+              ? CustomBottomNavigationBar(
+                currentIndex: widget.currentIndex,
+                onTap: _handleNavTap,
+              )
+              : null,
+    );
+
+    return widget.isSidebarEnabled
+        ? CustomSidebar(key: _sidebarKey, child: scaffold)
+        : scaffold;
+  }
+}
