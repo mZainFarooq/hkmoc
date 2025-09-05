@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/utils/custom_navigation.dart';
 import '../auth/login_screen.dart';
 import 'dart:async';
 
@@ -49,7 +48,10 @@ class _SplashScreenState extends State<SplashScreen>
         timer.cancel();
         Future.delayed(const Duration(seconds: 1), () {
           if (!mounted) return;
-          CustomNavigation.push(context, const LoginScreen());
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+          );
         });
       }
     });

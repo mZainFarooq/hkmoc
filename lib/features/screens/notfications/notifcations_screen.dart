@@ -46,6 +46,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       title: 'Notifications',
       currentIndex: 2,
       isBackAction: true,
+      isNotficationIcon: false,
       showBottomNav: false,
       body: ListView.separated(
         physics: const BouncingScrollPhysics(),

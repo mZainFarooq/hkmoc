@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
+import 'package:flutter_app/core/constants/app_fonts_sizes.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -22,21 +25,21 @@ class EditProfileScreen extends StatelessWidget {
         children: [
           CustomText(
             text: "$label *",
-            fontSize: 14.sp,
+            size: CustomTextSize.sm,
             fontWeight: FontWeight.w500,
             color: CustomTextColor.primary,
           ),
-          SizedBox(height: 6.h),
+          AppSpacing.vxs,
           TextField(
             maxLines: isMultiline ? 3 : 1,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: AppFonts.sm,
               color: isDark ? AppColors.darkText : AppColors.lightText,
             ),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: TextStyle(
-                fontSize: 14.sp,
+                fontSize: AppFonts.sm,
                 color:
                     isDark
                         ? AppColors.darkTextSecondary
@@ -76,9 +79,10 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     return MainLayout(
-      title: "Edit Profile",
+      title: helper?.tr('edit_profile_screen.screen_title') ?? '',
       isBackAction: true,
       currentIndex: 3,
       showBottomNav: false,
@@ -115,24 +119,29 @@ class EditProfileScreen extends StatelessWidget {
             SizedBox(height: AppSpacing.lg.h),
 
             _buildTextField(
-              label: "First Name",
-              hint: "Junaid",
-              isDark: isDark,
-            ),
-            _buildTextField(label: "Last Name", hint: "Ahmad", isDark: isDark),
-            _buildTextField(
-              label: "Email",
-              hint: "ahmadjunaid791@gmail.com",
+              label: helper?.tr('edit_profile_screen.labels.first_name') ?? '',
+              hint: helper?.tr('edit_profile_screen.hints.first_name') ?? '',
               isDark: isDark,
             ),
             _buildTextField(
-              label: "Phone Number",
-              hint: "+92 3023434506",
+              label: helper?.tr('edit_profile_screen.labels.last_name') ?? '',
+              hint: helper?.tr('edit_profile_screen.hints.last_name') ?? '',
               isDark: isDark,
             ),
             _buildTextField(
-              label: "Address",
-              hint: "5 Maple Avenue, Richmond, London, TW10 6JR, UK",
+              label: helper?.tr('edit_profile_screen.labels.email') ?? '',
+              hint: helper?.tr('edit_profile_screen.hints.email') ?? '',
+              isDark: isDark,
+            ),
+            _buildTextField(
+              label:
+                  helper?.tr('edit_profile_screen.labels.phone_number') ?? '',
+              hint: helper?.tr('edit_profile_screen.hints.phone_number') ?? '',
+              isDark: isDark,
+            ),
+            _buildTextField(
+              label: helper?.tr('edit_profile_screen.labels.address') ?? '',
+              hint: helper?.tr('edit_profile_screen.hints.address') ?? '',
               isMultiline: true,
               isDark: isDark,
             ),
@@ -152,7 +161,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 onPressed: () {},
                 child: CustomText(
-                  text: "Save",
+                  text: helper?.tr('edit_profile_screen.button') ?? '',
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: CustomTextColor.alwaysWhite,

@@ -3,7 +3,9 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -12,7 +14,8 @@ class HistoryScreen extends StatefulWidget {
   State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _HistoryScreenState extends State<HistoryScreen>
+    with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
 
   final List<Map<String, dynamic>> hotels = [
@@ -126,6 +129,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     // filter hotels list
     final filteredHotels =
@@ -147,18 +152,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
         }).toList();
 
     String heading = "";
+
     if (searchQuery.isNotEmpty) {
       heading = "";
     } else if (filterFrom != null && filterTo != null) {
+      // yahan direct translated "from" aur "to" use karo
+      String fromText = helper?.tr('history_screen.from') ?? 'From';
+      String toText = helper?.tr('history_screen.to') ?? 'To';
+
       heading =
-          "From ${filterFrom!.toLocal().toString().split(" ").first} "
-          "to ${filterTo!.toLocal().toString().split(" ").first}";
+          "$fromText ${filterFrom!.toLocal().toString().split(" ").first} "
+          "$toText ${filterTo!.toLocal().toString().split(" ").first}";
     } else {
-      heading = "Today Completed";
+      heading = "today_completed"; // yahan key ka naam hi save karlo
     }
 
     return MainLayout(
-      title: "History",
+      title: helper?.tr('history_screen.screen_title') ?? '',
       currentIndex: 1,
       isSidebarEnabled: true,
       body: Padding(
@@ -169,11 +179,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔹 Search Bar (full width)
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: "Search hotels by name",
+                labelText:
+                    helper?.tr('history_screen.search_placeholder') ?? '',
                 prefixIcon: const Icon(Icons.search, size: 20),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -200,14 +210,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child:
                       heading.isNotEmpty
                           ? CustomText(
-                            text: heading,
+                            text:
+                                heading == "today_completed"
+                                    ? helper?.tr('history_screen.$heading') ??
+                                        ''
+                                    : heading,
                             size: CustomTextSize.md,
                             fontWeight: FontWeight.bold,
                             color: CustomTextColor.text,
                           )
                           : const SizedBox(),
                 ),
-
                 GestureDetector(
                   onTap: () async {
                     final pickedRange = await showDateRangePicker(
@@ -247,7 +260,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         const Icon(Icons.filter_list, size: 20),
                         SizedBox(width: 6.w),
                         CustomText(
-                          text: "Filter by date",
+                          text:
+                              helper?.tr('history_screen.filter_by_date') ?? '',
                           size: CustomTextSize.sm,
                           color:
                               filterFrom != null && filterTo != null
@@ -264,80 +278,119 @@ class _HistoryScreenState extends State<HistoryScreen> {
             AppSpacing.vsm,
 
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredHotels.length,
-                itemBuilder: (context, index) {
-                  final hotel = filteredHotels[index];
-                  final isExpanded = expandedHotels.contains(hotel["id"]);
-
-                  return Card(
-                    color:
-                        isDark ? AppColors.darkSurface : AppColors.lightSurface,
-                    margin: const EdgeInsets.symmetric(vertical: 4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.hotel, color: primary),
-                          title: CustomText(
-                            text: hotel["name"],
-                            size: CustomTextSize.md,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          subtitle: CustomText(
-                            text:
-                                "Completed ${hotel["rooms"].where((r) => r["status"] == "complete").length} of ${hotel["rooms"].length} rooms",
-                            size: CustomTextSize.xs,
-                            color: CustomTextColor.textSecondary,
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(
-                              isExpanded
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
-                              color: primary,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                if (isExpanded) {
-                                  expandedHotels.remove(hotel["id"]);
-                                } else {
-                                  expandedHotels.add(hotel["id"]);
-                                }
-                              });
-                            },
-                          ),
+              child:
+                  filteredHotels.isEmpty
+                      ? Center(
+                        child: CustomText(
+                          text: helper?.tr('history_screen.no_results') ?? '',
+                          size: CustomTextSize.sm,
+                          fontWeight: FontWeight.normal,
+                          color: CustomTextColor.textSecondary,
                         ),
-                        if (isExpanded)
-                          Column(
-                            children:
-                                (hotel["rooms"] as List)
-                                    .map(
-                                      (room) => ListTile(
-                                        leading: Icon(
-                                          room["status"] == "complete"
-                                              ? Icons.check_circle
-                                              : Icons.cancel,
-                                          color:
-                                              room["status"] == "complete"
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                        ),
-                                        title: CustomText(
-                                          text: room["roomName"],
-                                          size: CustomTextSize.sm,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                          ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      )
+                      : ListView.builder(
+                        itemCount: filteredHotels.length,
+                        itemBuilder: (context, index) {
+                          final hotel = filteredHotels[index];
+                          final isExpanded = expandedHotels.contains(
+                            hotel["id"],
+                          );
+
+                          int completedCount =
+                              hotel["rooms"]
+                                  .where((r) => r["status"] == "complete")
+                                  .length;
+                          int totalCount = hotel["rooms"].length;
+
+                          String completedText = (helper?.tr(
+                                    'history_screen.completed_rooms',
+                                  ) ??
+                                  '')
+                              .replaceAll(
+                                '{completed}',
+                                completedCount.toString(),
+                              )
+                              .replaceAll('{total}', totalCount.toString());
+                          return Card(
+                            color:
+                                isDark
+                                    ? AppColors.darkSurface
+                                    : AppColors.lightSurface,
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: Icon(Icons.hotel, color: primary),
+                                  title: CustomText(
+                                    text: hotel["name"],
+                                    size: CustomTextSize.md,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  subtitle: CustomText(
+                                    text: completedText,
+                                    size: CustomTextSize.xs,
+                                    color: CustomTextColor.textSecondary,
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      isExpanded
+                                          ? Icons.keyboard_arrow_up
+                                          : Icons.keyboard_arrow_down,
+                                      color: primary,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (isExpanded) {
+                                          expandedHotels.remove(hotel["id"]);
+                                        } else {
+                                          expandedHotels.add(hotel["id"]);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                                AnimatedSize(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  child:
+                                      isExpanded
+                                          ? Column(
+                                            children:
+                                                (hotel["rooms"] as List)
+                                                    .map(
+                                                      (room) => ListTile(
+                                                        leading: Icon(
+                                                          room["status"] ==
+                                                                  "complete"
+                                                              ? Icons
+                                                                  .check_circle
+                                                              : Icons.cancel,
+                                                          color:
+                                                              room["status"] ==
+                                                                      "complete"
+                                                                  ? Colors.green
+                                                                  : Colors.red,
+                                                        ),
+                                                        title: CustomText(
+                                                          text:
+                                                              room["roomName"],
+                                                          size:
+                                                              CustomTextSize.sm,
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                          )
+                                          : const SizedBox.shrink(),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
             ),
           ],
         ),

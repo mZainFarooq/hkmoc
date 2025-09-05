@@ -2,16 +2,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppFonts {
   /// Very large heading - App titles, Splash titles, Hero text
-  static double get xxxl => 30.sp;
+  static double get xxxl => 28.sp;
 
   /// Large heading - Page titles, Section headings
   static double get xxl => 26.sp;
 
   /// Medium heading - Card titles, Form headings
-  static double get xl => 22.sp;
+  static double get xl => 24.sp;
 
   /// Small heading / Subheading - List titles, Dialog titles
-  static double get lg => 20.sp;
+  static double get lg => 18.sp;
 
   /// Body text - Normal readable text, Paragraphs
   static double get md => 16.sp;

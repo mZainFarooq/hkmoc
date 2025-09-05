@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './core/theme/app_theme.dart';
@@ -6,12 +7,16 @@ import './core/theme/theme_provider.dart';
 import './core/routes/app_routes.dart';
 import './core/constants/app_route_names.dart';
 import 'package:flutter/foundation.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider()..setLocale('en'),
+        ), // default language
+      ],
       child: const MyApp(),
     ),
   );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
+import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -17,12 +20,27 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final activeColor = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
-    final inactiveColor = isDark ? AppColors.darkTextSecondary : Colors.grey;
+    final inactiveColor =
+        isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     final items = [
-      {'icon': Icons.dashboard, 'label': 'Dashboard', 'route': '/dashboard'},
-      {'icon': Icons.history, 'label': 'History', 'route': '/history'},
-      {'icon': Icons.settings, 'label': 'Settings', 'route': '/settings'},
+      {
+        'icon': Icons.dashboard,
+        'label': helper?.tr('bottom_navigator.dashboard') ?? '',
+        'route': '/dashboard',
+      },
+      {
+        'icon': Icons.history,
+        'label': helper?.tr('bottom_navigator.history') ?? '',
+        'route': '/history',
+      },
+      {
+        'icon': Icons.settings,
+        'label': helper?.tr('bottom_navigator.setting') ?? '',
+        'route': '/settings',
+      },
     ];
 
     return SizedBox(
@@ -44,17 +62,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   size: 24.sp,
                 ),
                 AppSpacing.hxs,
-                Text(
-                  items[index]['label'] as String,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 12.sp,
-
-                    fontWeight:
-                        currentIndex == index
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                  ),
+                CustomText(
+                  text: items[index]['label'] as String,
+                  color:
+                      currentIndex == index
+                          ? CustomTextColor.primary
+                          : CustomTextColor.textSecondary,
+                  size: CustomTextSize.xs,
+                  fontWeight:
+                      currentIndex == index
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                 ),
               ],
             ),

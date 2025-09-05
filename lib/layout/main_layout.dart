@@ -10,9 +10,11 @@ class MainLayout extends StatefulWidget {
   final int currentIndex;
   final bool showBottomNav;
   final bool isBackAction;
+  final bool isNotficationIcon;
   final bool isAvatarShow;
   final Map<String, dynamic>? user;
   final bool isSidebarEnabled;
+  final bool isActionsShow;
   final bool isCheckIn;
   final VoidCallback? onCheckedIn;
 
@@ -25,9 +27,11 @@ class MainLayout extends StatefulWidget {
     this.showBottomNav = true,
     this.isBackAction = false,
     this.isAvatarShow = true,
+    this.isActionsShow = true,
     this.user,
     this.isCheckIn = false,
     this.isSidebarEnabled = false,
+    this.isNotficationIcon = true,
     this.hotelInfo,
     this.onCheckedIn,
   });
@@ -68,11 +72,12 @@ class _MainLayoutState extends State<MainLayout> {
     final scaffold = Scaffold(
       appBar: CustomAppBar(
         title: widget.title,
-
+        isNotficationIcon: widget.isNotficationIcon,
         isBackAction: widget.isBackAction,
         hotelInfo: widget.hotelInfo,
         isSidebarEnabled: widget.isSidebarEnabled,
         isUser: true,
+        isActionsShow: widget.isActionsShow,
         isAvatarShow: widget.isAvatarShow,
         user: widget.user,
         isCheckIn: widget.isCheckIn,

@@ -9,7 +9,9 @@ import 'package:flutter_app/features/screens/profile/edit_profile.dart';
 import 'package:flutter_app/features/screens/sick/sick_screen.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -24,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: EdgeInsets.only(top: AppSpacing.lg.h, bottom: AppSpacing.sm.h),
       child: CustomText(
         text: title,
-        size: CustomTextSize.lg,
+        size: CustomTextSize.md,
         fontWeight: FontWeight.bold,
         color: CustomTextColor.text,
       ),
@@ -53,15 +55,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
           color:
               iconColor ??
               (isDark ? AppColors.darkPrimary : AppColors.lightPrimary),
+          size: 20,
         ),
         title: CustomText(
           text: title,
-          size: CustomTextSize.md,
+          size: CustomTextSize.sm,
           fontWeight: FontWeight.w500,
         ),
         trailing:
             trailing ??
-            (showArrow ? const Icon(Icons.arrow_forward_ios, size: 16) : null),
+            (showArrow ? const Icon(Icons.arrow_forward_ios, size: 12) : null),
         onTap: onTap,
       ),
     );
@@ -69,8 +72,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     return MainLayout(
-      title: "Settings",
+      title: helper?.tr('setting_screen.screen_title') ?? '',
       currentIndex: 2,
       isSidebarEnabled: true,
       body: Padding(
@@ -83,18 +88,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 🔹 Account Section
-              _buildSectionTitle("Account"),
+              _buildSectionTitle(
+                helper?.tr('setting_screen.account_section') ?? '',
+              ),
               _buildTile(
                 context: context,
                 icon: Icons.person_outline,
-                title: "Edit Profile",
+                title: helper?.tr('setting_screen.edit_profile') ?? '',
                 onTap:
                     () => CustomNavigation.push(context, EditProfileScreen()),
               ),
               _buildTile(
                 context: context,
                 icon: Icons.notifications_outlined,
-                title: "Notifications",
+                title: helper?.tr('setting_screen.notifications') ?? '',
                 onTap:
                     () => CustomNavigation.push(
                       context,
@@ -104,18 +111,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildTile(
                 context: context,
                 icon: Icons.sick_outlined,
-                title: "Sick Leave",
+                title: helper?.tr('setting_screen.sick_leave') ?? '',
                 onTap: () {
                   CustomNavigation.push(context, SickLeavePage());
                 },
               ),
 
-              // 🔹 Preferences Section
-              _buildSectionTitle("Preferences"),
+              _buildSectionTitle(
+                helper?.tr('setting_screen.preferences_section') ?? '',
+              ),
               _buildTile(
                 context: context,
                 icon: Icons.help_outline,
-                title: "Help & Support",
+                title: helper?.tr('setting_screen.help_support') ?? '',
                 onTap: () {
                   CustomNavigation.push(context, HelpAndSupportScreen());
                 },
@@ -123,7 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildTile(
                 context: context,
                 icon: Icons.info_outline,
-                title: "About App",
+                title: helper?.tr('setting_screen.about_app') ?? '',
                 onTap: () {
                   CustomNavigation.push(context, AboutAppScreen());
                 },

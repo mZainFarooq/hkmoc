@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/utils/custom_navigation.dart';
 import 'package:flutter_app/features/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/provider/language_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../../layout/auth_layout.dart';
 import '../../widgets/custom_button.dart';
 import '../../../core/constants/app_spacing.dart';
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_emailFocus);
     });
@@ -40,13 +42,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() {
-    CustomNavigation.push(context, const DashboardScreen());
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
+
     return AuthLayout(
-      title: "Login",
+      title: helper?.tr('login_screen.screen_title') ?? '',
       isBackAction: false,
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: AppSpacing.md.w),
@@ -54,14 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomText(
-              text: "Welcome back 👋",
-              size: CustomTextSize.xl,
+              text: helper?.tr('login_screen.welcome') ?? '',
+              size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               textAlign: TextAlign.center,
             ),
             AppSpacing.vsm,
             CustomText(
-              text: "Login to your account to manage your cleaning jobs.",
+              text: helper?.tr('login_screen.login_desc') ?? '',
               size: CustomTextSize.sm,
               fontWeight: FontWeight.normal,
               color: CustomTextColor.textSecondary,
@@ -69,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             AppSpacing.vxl,
 
-            // Email Field
             TextField(
               controller: _emailController,
               focusNode: _emailFocus,
@@ -78,13 +86,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                labelText: 'Email',
+                labelText: helper?.tr('login_screen.email_label') ?? '',
               ),
               style: TextStyle(fontSize: 16.sp),
             ),
             AppSpacing.vlg,
 
-            // Password Field
             TextField(
               controller: _passwordController,
               focusNode: _passwordFocus,
@@ -93,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                labelText: 'Password',
+                labelText: helper?.tr('login_screen.password_label') ?? '',
               ),
               style: TextStyle(fontSize: 16.sp),
             ),
@@ -116,15 +123,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CustomText(
-                                text: "Select Password Reset Method",
+                              CustomText(
+                                text:
+                                    helper?.tr(
+                                      'login_screen.reset_method_title',
+                                    ) ??
+                                    '',
                                 size: CustomTextSize.md,
                                 fontWeight: FontWeight.bold,
                               ),
                               AppSpacing.vxs,
-                              const CustomText(
+                              CustomText(
                                 text:
-                                    "Choose how you want to reset your password. You can do it yourself or ask an admin to change.",
+                                    helper?.tr(
+                                      'login_screen.reset_method_description',
+                                    ) ??
+                                    '',
                                 size: CustomTextSize.sm,
                                 color: CustomTextColor.textSecondary,
                               ),
@@ -133,15 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         AppSpacing.vmd,
                         CustomButton(
-                          text: "Reset Myself",
+                          text: helper?.tr('login_screen.reset_myself') ?? '',
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
-
                         AppSpacing.vsm,
                         CustomButton(
-                          text: "You want to change by Admin?",
+                          text: helper?.tr('login_screen.reset_by_admin') ?? '',
                           variant: ButtonVariant.outline,
                           onPressed: () {
                             Navigator.pop(context);
@@ -151,8 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   );
                 },
-                child: const CustomText(
-                  text: "Forgot your password ?",
+                child: CustomText(
+                  text: helper?.tr('login_screen.forgot_password') ?? '',
                   size: CustomTextSize.sm,
                   color: CustomTextColor.textSecondary,
                 ),
@@ -164,7 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: double.infinity,
               child: CustomButton(
-                text: 'Login & Start Work',
+                text: helper?.tr('login_screen.login_button') ?? '',
+
                 onPressed: _handleLogin,
               ),
             ),

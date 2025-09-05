@@ -12,6 +12,7 @@ class CustomButton extends StatefulWidget {
   final double borderRadius;
   final EdgeInsetsGeometry? padding;
   final bool isLoading;
+  final bool isDisabled; // new key
 
   const CustomButton({
     super.key,
@@ -21,6 +22,7 @@ class CustomButton extends StatefulWidget {
     this.borderRadius = 8.0,
     this.padding,
     this.isLoading = false,
+    this.isDisabled = false, // default false
   });
 
   @override
@@ -33,12 +35,24 @@ class _CustomButtonState extends State<CustomButton> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final Color primaryBg =
-        isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
+        widget.isDisabled
+            ? Colors.grey.shade400
+            : (isDark ? AppColors.darkPrimary : AppColors.lightPrimary);
+
     final Color outlineBorder =
-        isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
-    final Color textColorPrimary = AppColors.lightSurface;
+        widget.isDisabled
+            ? Colors.grey.shade400
+            : (isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.lightTextSecondary);
+
+    final Color textColorPrimary =
+        widget.isDisabled ? Colors.grey.shade200 : AppColors.lightSurface;
+
     final Color textColorOutline =
-        isDark ? AppColors.darkText : AppColors.lightText;
+        widget.isDisabled
+            ? Colors.grey.shade200
+            : (isDark ? AppColors.darkText : AppColors.lightText);
 
     final EdgeInsetsGeometry buttonPadding =
         widget.padding ??
@@ -80,24 +94,25 @@ class _CustomButtonState extends State<CustomButton> {
             )
             : CustomText(
               text: widget.text,
-              size: CustomTextSize.md,
+              size: CustomTextSize.sm,
               fontWeight: FontWeight.w700,
-
               color:
                   widget.variant == ButtonVariant.primary
-                      ? CustomTextColor.btnText
+                      ? CustomTextColor.alwaysWhite
                       : CustomTextColor.textSecondary,
             );
 
     return widget.variant == ButtonVariant.primary
         ? ElevatedButton(
           style: style,
-          onPressed: widget.isLoading ? null : widget.onPressed,
+          onPressed:
+              (widget.isLoading || widget.isDisabled) ? null : widget.onPressed,
           child: childContent,
         )
         : OutlinedButton(
           style: style,
-          onPressed: widget.isLoading ? null : widget.onPressed,
+          onPressed:
+              (widget.isLoading || widget.isDisabled) ? null : widget.onPressed,
           child: childContent,
         );
   }

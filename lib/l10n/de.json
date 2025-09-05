@@ -1,0 +1,85 @@
+{
+  "login_screen": {
+    "screen_title": "Einloggen",
+    "welcome": "Willkommen zurück 👋",
+    "login_desc": "Melden Sie sich an, um Ihre Reinigungsaufträge zu verwalten.",
+    "email_label": "E-Mail",
+    "password_label": "Passwort",
+    "forgot_password": "Passwort vergessen?",
+    "reset_method_title": "Passwort-Zurücksetzungsmethode auswählen",
+    "reset_method_description": "Wählen Sie, wie Sie Ihr Passwort zurücksetzen möchten. Sie können es selbst tun oder einen Admin bitten, es zu ändern.",
+    "reset_myself": "Selbst zurücksetzen",
+    "reset_by_admin": "Möchten Sie, dass ein Admin es ändert?",
+    "login_button": "Einloggen & Arbeit starten"
+  },
+  "dashboard_screen": {
+    "screen_title": "Armaturenbrett",
+    "greeting": "Hallo",
+    "assigned_hotels": "Zugewiesene Hotels",
+    "no_hotels_assigned": "Keine Hotels zugewiesen!",
+    "see_details": "Details anzeigen",
+    "check_in": "Einchecken"
+  },
+  "history_screen": {
+    "screen_title": "Verlauf",
+    "search_placeholder": "Hotels nach Namen suchen",
+    "filter_by_date": "Nach Datum filtern",
+    "today_completed": "Heute abgeschlossen",
+    "from": "Von",
+    "to": "Bis",
+    "no_results": "Keine Ergebnisse gefunden",
+    "completed_rooms": "{completed} von {total} Zimmern abgeschlossen"
+  },
+  "setting_screen": {
+    "screen_title": "Einstellungen",
+    "account_section": "Konto",
+    "preferences_section": "Einstellungen",
+    "edit_profile": "Profil bearbeiten",
+    "notifications": "Benachrichtigungen",
+    "sick_leave": "Krankmeldung",
+    "help_support": "Hilfe & Support",
+    "about_app": "Über die App"
+  },
+  "edit_profile_screen": {
+    "screen_title": "Profil bearbeiten",
+    "labels": {
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "email": "E-Mail",
+      "phone_number": "Telefonnummer",
+      "address": "Adresse"
+    },
+    "hints": {
+      "first_name": "Junaid",
+      "last_name": "Ahmad",
+      "email": "ahmadjunaid791@gmail.com",
+      "phone_number": "+92 3023434506",
+      "address": "5 Maple Avenue, Richmond, London, TW10 6JR, Deutschland"
+    },
+    "button": "Aktualisieren"
+  },
+  "language_popup": {
+    "title": "Sprache wählen",
+    "buttons": {
+      "cancel": "Abbrechen",
+      "select": "Auswählen"
+    }
+  },
+  "bottom_navigator": {
+    "dashboard": "Armaturenbrett",
+    "history": "Verlauf",
+    "setting": "Einstellungen"
+  },
+
+  "sidebar_options": {
+    "account_section": "Konto",
+    "profile": "Profil",
+    "salary": "Gehalt",
+    "information_section": "Informationen",
+    "about_app": "Über die App",
+    "terms_and_conditions": "Allgemeine Geschäftsbedingungen",
+    "privacy_policy": "Datenschutzrichtlinie",
+    "permissions": "Berechtigungen",
+    "logout": "Abmelden"
+  }
+}

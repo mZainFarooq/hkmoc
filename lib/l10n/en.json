@@ -1,0 +1,85 @@
+{
+  "login_screen": {
+    "screen_title": "Login",
+    "welcome": "Welcome back 👋",
+    "login_desc": "Login to your account to manage your cleaning jobs.",
+    "email_label": "Email",
+    "password_label": "Password",
+    "forgot_password": "Forgot your password ?",
+    "reset_method_title": "Select Password Reset Method",
+    "reset_method_description": "Choose how you want to reset your password. You can do it yourself or ask an admin to change.",
+    "reset_myself": "Reset Myself",
+    "reset_by_admin": "You want to change by Admin?",
+    "login_button": "Login & Start Work"
+  },
+  "dashboard_screen": {
+    "screen_title": "Dashboard",
+    "greeting": "Hello",
+    "assigned_hotels": "Assigned Hotels",
+    "no_hotels_assigned": "No hotels assigned!",
+    "see_details": "See Details",
+    "check_in": "Check In"
+  },
+  "history_screen": {
+    "screen_title": "History",
+    "search_placeholder": "Search hotels by name",
+    "filter_by_date": "Filter by date",
+    "today_completed": "Today Completed",
+    "from": "From",
+    "to": "To",
+    "no_results": "No results found",
+    "completed_rooms": "Completed {completed} of {total} rooms"
+  },
+  "setting_screen": {
+    "screen_title": "Settings",
+    "account_section": "Account",
+    "preferences_section": "Preferences",
+    "edit_profile": "Edit Profile",
+    "notifications": "Notifications",
+    "sick_leave": "Sick Leave",
+    "help_support": "Help & Support",
+    "about_app": "About App"
+  },
+  "edit_profile_screen": {
+    "screen_title": "Edit Profile",
+    "labels": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone_number": "Phone Number",
+      "address": "Address"
+    },
+    "hints": {
+      "first_name": "Junaid",
+      "last_name": "Ahmad",
+      "email": "ahmadjunaid791@gmail.com",
+      "phone_number": "+92 3023434506",
+      "address": "5 Maple Avenue, Richmond, London, TW10 6JR, UK"
+    },
+    "button": "Update"
+  },
+  "language_popup": {
+    "title": "Select Language",
+    "buttons": {
+      "cancel": "Cancel",
+      "select": "Select"
+    }
+  },
+  "bottom_navigator": {
+    "dashboard": "Dashboard",
+    "history": "History",
+    "setting": "Settings"
+  },
+
+  "sidebar_options": {
+    "account_section": "Account",
+    "profile": "Profile",
+    "salary": "Salary",
+    "information_section": "Information",
+    "about_app": "About App",
+    "terms_and_conditions": "Terms and Conditions",
+    "privacy_policy": "Privacy Policy",
+    "permissions": "Permissions",
+    "logout": "Logout"
+  }
+}

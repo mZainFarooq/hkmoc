@@ -6,6 +6,7 @@ import 'package:flutter_app/features/screens/notfications/notifcations_screen.da
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
 import 'package:flutter_app/features/widgets/language_popup_content.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
@@ -21,7 +22,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Map<String, dynamic>? user;
   final bool isSidebarEnabled;
   final VoidCallback? onMenuPressed;
-
+  final bool isNotficationIcon;
+  final bool isActionsShow;
   final bool isCheckIn;
   final Map<String, dynamic>? hotelInfo;
   final VoidCallback? onCheckedIn;
@@ -34,6 +36,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.isAvatarShow = true,
     this.user,
     this.isSidebarEnabled = false,
+    this.isNotficationIcon = true,
+    this.isActionsShow = true,
     this.onMenuPressed,
     this.hotelInfo,
     this.isCheckIn = false,
@@ -131,11 +135,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-
       actions: [
         if (isCheckIn)
-          Padding(
-            padding: EdgeInsets.only(right: 12.w),
+          Container(
+            margin: EdgeInsets.only(right: 12.w),
             child: CustomButton(
               text: "Check in",
               onPressed: () {
@@ -203,55 +206,77 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             ),
           )
-        else ...[
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color:
-                  isDarkMode ? AppColors.lightSurface : AppColors.darkSurface,
-              size: 20.sp,
-            ),
-            onPressed: () {
-              CustomNavigation.push(context, NotificationsScreen());
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.language,
-              color:
-                  isDarkMode ? AppColors.lightSurface : AppColors.darkSurface,
-              size: 20.sp,
-            ),
-            onPressed: () {
-              CustomPopup.show(
-                context,
-                content: LanguagePopupWidget(
-                  languages: [
-                    {'name': 'English', 'flag': '🇬🇧'},
-                    {'name': 'Urdu', 'flag': '🇵🇰'},
-                    {'name': 'Spanish', 'flag': '🇪🇸'},
-                    {'name': 'French', 'flag': '🇫🇷'},
-                    {'name': 'German', 'flag': '🇩🇪'},
-                    {'name': 'Chinese', 'flag': '🇨🇳'},
-                  ],
-                  selectedLanguage: 'English',
-                  onSelected: (lang) {},
+        else if (isActionsShow)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isNotficationIcon)
+                Container(
+                  margin: EdgeInsets.only(right: 12.w),
+                  child: GestureDetector(
+                    onTap: () {
+                      CustomNavigation.push(context, NotificationsScreen());
+                    },
+                    child: Icon(
+                      Icons.notifications,
+                      color:
+                          isDarkMode
+                              ? AppColors.lightSurface
+                              : AppColors.darkSurface,
+                      size: 22.sp,
+                    ),
+                  ),
                 ),
-              );
-            },
+              Container(
+                margin: EdgeInsets.only(right: 12.w),
+                child: GestureDetector(
+                  onTap: () {
+                    CustomPopup.show(
+                      context,
+                      content: LanguagePopupWidget(
+                        languages: [
+                          {'name': 'en', 'flag': '🇬🇧', 'display': 'English'},
+                          {'name': 'de', 'flag': '🇩🇪', 'display': 'German'},
+                        ],
+                        selectedLanguage:
+                            Provider.of<LanguageProvider>(
+                              context,
+                              listen: false,
+                            ).locale,
+                        onSelected: (lang) {
+                          print('User selected: $lang');
+                        },
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.language,
+                    color:
+                        isDarkMode
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
+                    size: 22.sp,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 12.w),
+                child: GestureDetector(
+                  onTap: () {
+                    themeProvider.toggleTheme(!isDarkMode);
+                  },
+                  child: Icon(
+                    themeIcon,
+                    color:
+                        isDarkMode
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
+                    size: 22.sp,
+                  ),
+                ),
+              ),
+            ],
           ),
-          IconButton(
-            icon: Icon(
-              themeIcon,
-              color:
-                  isDarkMode ? AppColors.lightSurface : AppColors.darkSurface,
-              size: 20.sp,
-            ),
-            onPressed: () {
-              themeProvider.toggleTheme(!isDarkMode);
-            },
-          ),
-        ],
       ],
     );
   }

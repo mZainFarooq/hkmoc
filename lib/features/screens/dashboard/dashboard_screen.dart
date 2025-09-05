@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
 import 'package:flutter_app/features/screens/dashboard/hotel_rooms_screen.dart';
+import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -73,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             "id": "HOTEL-1002-XYZ-AB12",
             "name": "Ocean View Resort",
             "roomsToClean": 8,
-            "isCheckin": false,
+            "isCheckin": true,
             "rooms": [
               {
                 "roomId": "ROOM-1002-1",
@@ -122,202 +126,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 "roomId": "ROOM-1003-3",
                 "roomName": "Cabin Suite",
                 "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1004-XYZ-AB12",
-            "name": "Sunrise Hotel",
-            "roomsToClean": 7,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1004-1",
-                "roomName": "Sunrise Suite 101",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1004-2",
-                "roomName": "Deluxe 201",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1004-3",
-                "roomName": "Business Suite 301",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1004-4",
-                "roomName": "Presidential Suite",
-                "status": "complete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1005-XYZ-AB12",
-            "name": "Lakeside Resort",
-            "roomsToClean": 10,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1005-1",
-                "roomName": "Lake View 101",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1005-2",
-                "roomName": "Lake View 102",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1005-3",
-                "roomName": "Family Suite 201",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1005-4",
-                "roomName": "Honeymoon Suite",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1005-5",
-                "roomName": "Deluxe Room 301",
-                "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1006-XYZ-AB12",
-            "name": "Royal Palace",
-            "roomsToClean": 4,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1006-1",
-                "roomName": "Royal Suite 101",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1006-2",
-                "roomName": "King’s Chamber",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1006-3",
-                "roomName": "Queen’s Room",
-                "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1007-XYZ-AB12",
-            "name": "City Lights Hotel",
-            "roomsToClean": 15,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1007-1",
-                "roomName": "Penthouse 1201",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1007-2",
-                "roomName": "Executive 501",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1007-3",
-                "roomName": "Business Suite 301",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1007-4",
-                "roomName": "Standard Room 401",
-                "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1008-XYZ-AB12",
-            "name": "Desert Rose Inn",
-            "roomsToClean": 9,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1008-1",
-                "roomName": "Oasis Suite 101",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1008-2",
-                "roomName": "Camel View 102",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1008-3",
-                "roomName": "Desert Villa 201",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1008-4",
-                "roomName": "Royal Tent",
-                "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1009-XYZ-AB12",
-            "name": "Forest Retreat",
-            "roomsToClean": 6,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1009-1",
-                "roomName": "Forest View 101",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1009-2",
-                "roomName": "Wood Cabin 102",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1009-3",
-                "roomName": "Treehouse Suite",
-                "status": "incomplete",
-              },
-            ],
-          },
-          {
-            "id": "HOTEL-1010-XYZ-AB12",
-            "name": "Skyline Tower Hotel",
-            "roomsToClean": 11,
-            "isCheckin": false,
-            "rooms": [
-              {
-                "roomId": "ROOM-1010-1",
-                "roomName": "Skyline Suite 1001",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1010-2",
-                "roomName": "Penthouse 1501",
-                "status": "complete",
-              },
-              {
-                "roomId": "ROOM-1010-3",
-                "roomName": "Executive Floor 501",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1010-4",
-                "roomName": "Standard Room 301",
-                "status": "incomplete",
-              },
-              {
-                "roomId": "ROOM-1010-5",
-                "roomName": "Business Lounge Room",
-                "status": "complete",
               },
             ],
           },
@@ -371,8 +179,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     return MainLayout(
-      title: "Dashboard",
+      title: helper?.tr('dashboard_screen.screen_title') ?? '',
       currentIndex: 0,
       isSidebarEnabled: true,
       onCheckedIn: () {
@@ -386,155 +196,208 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText(
-              text: "Hello, Charlotte Elizabeth",
-              size: CustomTextSize.lg,
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.center,
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 26,
+                  backgroundImage: AssetImage(avatarImage),
+                ),
+                const SizedBox(width: 14),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text:
+                          "${helper?.tr('dashboard_screen.greeting') ?? ''}, Muhammad Zain",
+
+                      size: CustomTextSize.lg,
+                      fontWeight: FontWeight.bold,
+                      color: CustomTextColor.text,
+                    ),
+                    const SizedBox(height: 4),
+                    CustomText(
+                      text: getFormattedDate(),
+                      size: CustomTextSize.sm,
+                      color: CustomTextColor.textSecondary,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            AppSpacing.vxs,
-            CustomText(
-              text: getFormattedDate(),
-              size: CustomTextSize.sm,
-              color: CustomTextColor.textSecondary,
-            ),
+
             AppSpacing.vlg,
             CustomText(
-              text: "Assigned Hotels",
+              text: helper?.tr('dashboard_screen.assigned_hotels') ?? '',
               size: CustomTextSize.md,
               color: CustomTextColor.text,
               fontWeight: FontWeight.w600,
             ),
-            AppSpacing.vsm,
+            AppSpacing.vxs,
             Expanded(
               child:
                   hotels.isEmpty
                       ? Center(
                         child: CustomText(
-                          text: 'No hotels assigned!',
+                          text:
+                              helper?.tr(
+                                'dashboard_screen.no_hotels_assigned',
+                              ) ??
+                              '',
                           size: CustomTextSize.md,
                           color: CustomTextColor.textSecondary,
                         ),
                       )
-                      : GridView.builder(
+                      : ListView.builder(
                         itemCount: hotels.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.9,
-                              crossAxisSpacing: 2,
-                              mainAxisSpacing: 4,
-                            ),
-
                         itemBuilder: (context, index) {
                           final hotel = hotels[index];
-                          return Material(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(12),
-                            child: InkWell(
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Material(
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(12),
-                              splashColor: primary.withValues(alpha: 0.2),
-                              onTap: () {
-                                // final bool isCheckin =
-                                //     hotel['isCheckin'] ?? false;
-
-                                // if (isCheckin) {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder:
-                                //           (context) => HotelRoomsWithCheckIn(
-                                //             hotelId: hotel["id"],
-                                //             hotelName: hotel["name"],
-                                //           ),
-                                //     ),
-                                //   ).then((value) {
-                                //     if (value == true) {
-                                //       loadHotels(); // 👈 Refresh hotels data
-                                //     }
-                                //   });
-                                // } else {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder:
-                                //           (context) => HotelRoomsScreen(
-                                //             hotelId: hotel["id"],
-                                //             hotelName: hotel["name"],
-                                //           ),
-                                //     ),
-                                //   ).then((value) {
-                                //     if (value == true) {
-                                //       loadHotels(); // 👈 Refresh hotels data
-                                //     }
-                                //   });
-                                // }
-                                CustomNavigation.push(
-                                  context,
-                                  HotelRoomsScreen(
-                                    hotelId: hotel["id"],
-                                    hotelName: hotel["name"],
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(12),
+                                splashColor: primary.withValues(alpha: 0.2),
+                                onTap: () {
+                                  CustomNavigation.push(
+                                    context,
+                                    HotelRoomsScreen(
+                                      hotelId: hotel["id"],
+                                      hotelName: hotel["name"],
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                );
-                              },
-
-                              child: Card(
-                                color:
-                                    isDark
-                                        ? AppColors.darkSurface
-                                        : AppColors.lightSurface,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.hotel,
-                                        size: 24.sp,
-                                        color: primary,
-                                      ),
-                                      AppSpacing.vmd,
-                                      CustomText(
-                                        text: hotel['name'],
-                                        size: CustomTextSize.md,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      const Spacer(),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color:
+                                          isDark
+                                              ? AppColors.darkSurface
+                                              : AppColors.lightSurface,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color:
+                                              isDark
+                                                  ? AppColors.lightBackground
+                                                      .withValues(alpha: 0.08)
+                                                  : AppColors.darkBackground
+                                                      .withValues(alpha: 0.08),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: primary.withValues(alpha: 0.2),
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
                                           children: [
-                                            Icon(
-                                              Icons.cleaning_services,
-                                              size: 16,
-                                              color: primary,
+                                            Container(
+                                              padding: const EdgeInsets.all(
+                                                10,
+                                              ), // icon ke around spacing
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: primary.withValues(
+                                                  alpha: 0.15,
+                                                ), // halka background color
+                                              ),
+                                              child: Icon(
+                                                Icons.hotel,
+                                                color:
+                                                    primary, // icon ka asli color
+                                                size: 26,
+                                              ),
                                             ),
-                                            AppSpacing.hsm,
-                                            CustomText(
-                                              text:
-                                                  '${hotel['roomsToClean']} rooms',
-                                              size: CustomTextSize.sm,
-                                              fontWeight: FontWeight.w600,
-                                              color: CustomTextColor.primary,
+
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: CustomText(
+                                                text:
+                                                    hotel['name'] ??
+                                                    "Hotel Name",
+                                                color: CustomTextColor.text,
+                                                size: CustomTextSize.md,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 38,
+                                              width: 38,
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  CircularProgressIndicator(
+                                                    value: 0.7,
+                                                    strokeWidth: 4,
+                                                    color: primary,
+                                                    backgroundColor:
+                                                        Colors.grey.shade200,
+                                                  ),
+                                                  CustomText(
+                                                    text: "8/12",
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        CustomTextColor.primary,
+                                                    size: CustomTextSize.xs,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        Divider(
+                                          height: 24,
+                                          color:
+                                              isDark
+                                                  ? AppColors.darkTextSecondary
+                                                  : AppColors
+                                                      .lightTextSecondary,
+                                          thickness: 1,
+                                        ),
+
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CustomButton(
+                                              text:
+                                                  helper?.tr(
+                                                    'dashboard_screen.see_details',
+                                                  ) ??
+                                                  '',
+                                              onPressed: () {},
+                                              variant: ButtonVariant.outline,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 10,
+                                                  ),
+                                            ),
+                                            CustomButton(
+                                              text:
+                                                  helper?.tr(
+                                                    'dashboard_screen.check_in',
+                                                  ) ??
+                                                  '',
+                                              onPressed: () {},
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 10,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

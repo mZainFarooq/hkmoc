@@ -91,6 +91,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
         showBottomNav: false,
         currentIndex: 0,
         isBackAction: true,
+        isActionsShow: false,
         body: Padding(
           padding: EdgeInsets.symmetric(
             vertical: AppSpacing.md.h,

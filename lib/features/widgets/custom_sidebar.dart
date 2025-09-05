@@ -9,7 +9,9 @@ import 'package:flutter_app/features/screens/profile/profile_screen.dart';
 import 'package:flutter_app/features/screens/salary/salary_screen.dart';
 import 'package:flutter_app/features/screens/termsNconditions/terms_and_conditions.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_spacing.dart';
 import '../widgets/custom_text.dart';
@@ -61,6 +63,8 @@ class CustomSidebarState extends State<CustomSidebar>
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     final backgroundColor =
         isDarkMode ? AppColors.darkSurface : AppColors.lightSurface;
@@ -93,7 +97,7 @@ class CustomSidebarState extends State<CustomSidebar>
               ),
               clipBehavior: Clip.antiAlias,
               child: Container(
-                width: 250.w,
+                width: 270.w,
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.only(
@@ -105,7 +109,6 @@ class CustomSidebarState extends State<CustomSidebar>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacing.vlg,
-                    // 🔹 Scrollable Menu Items
                     Expanded(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.symmetric(
@@ -156,10 +159,14 @@ class CustomSidebarState extends State<CustomSidebar>
                               ],
                             ),
                             AppSpacing.vlg,
-                            _buildSectionTitle("Account"),
+                            _buildSectionTitle(
+                              helper?.tr('sidebar_options.account_section') ??
+                                  '',
+                            ),
                             _buildMenuItem(
                               icon: Icons.person,
-                              label: "Profile",
+                              label:
+                                  helper?.tr('sidebar_options.profile') ?? '',
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -168,7 +175,7 @@ class CustomSidebarState extends State<CustomSidebar>
                             ),
                             _buildMenuItem(
                               icon: Icons.account_balance_wallet,
-                              label: "Salary",
+                              label: helper?.tr('sidebar_options.salary') ?? '',
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -176,10 +183,17 @@ class CustomSidebarState extends State<CustomSidebar>
                               },
                             ),
                             AppSpacing.vlg,
-                            _buildSectionTitle("Information"),
+                            _buildSectionTitle(
+                              helper?.tr(
+                                    'sidebar_options.information_section',
+                                  ) ??
+                                  '',
+                            ),
                             _buildMenuItem(
                               icon: Icons.info,
-                              label: "About App",
+                              label:
+                                  helper?.tr('sidebar_options.about_app') ?? '',
+
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -191,7 +205,12 @@ class CustomSidebarState extends State<CustomSidebar>
                             ),
                             _buildMenuItem(
                               icon: Icons.description,
-                              label: "Terms and Conditions",
+                              label:
+                                  helper?.tr(
+                                    'sidebar_options.terms_and_conditions',
+                                  ) ??
+                                  '',
+
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -203,7 +222,11 @@ class CustomSidebarState extends State<CustomSidebar>
                             ),
                             _buildMenuItem(
                               icon: Icons.lock,
-                              label: "Privacy Policy",
+                              label:
+                                  helper?.tr(
+                                    'sidebar_options.privacy_policy',
+                                  ) ??
+                                  '',
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -215,7 +238,10 @@ class CustomSidebarState extends State<CustomSidebar>
                             ),
                             _buildMenuItem(
                               icon: Icons.verified_user,
-                              label: "Permissions",
+                              label:
+                                  helper?.tr('sidebar_options.permissions') ??
+                                  '',
+
                               color: textColor,
                               onTap: () {
                                 toggleSidebar();
@@ -235,7 +261,7 @@ class CustomSidebarState extends State<CustomSidebar>
                       child: SizedBox(
                         width: double.infinity,
                         child: CustomButton(
-                          text: "Logout",
+                          text: helper?.tr('sidebar_options.logout') ?? '',
                           onPressed: () {
                             CustomNavigation.push(context, LoginScreen());
                           },
@@ -255,7 +281,7 @@ class CustomSidebarState extends State<CustomSidebar>
   Widget _buildSectionTitle(String title) {
     return CustomText(
       text: title,
-      size: CustomTextSize.lg,
+      size: CustomTextSize.md,
       fontWeight: FontWeight.w600,
       color: CustomTextColor.text,
     );
@@ -274,12 +300,12 @@ class CustomSidebarState extends State<CustomSidebar>
         padding: EdgeInsets.symmetric(vertical: AppSpacing.md.h),
         child: Row(
           children: [
-            Icon(icon, color: color, size: 24.sp),
+            Icon(icon, color: color, size: 20.sp),
             AppSpacing.hsm,
             CustomText(
               text: label,
-              size: CustomTextSize.md,
-              fontWeight: FontWeight.w500,
+              size: CustomTextSize.sm,
+              fontWeight: FontWeight.normal,
               color: CustomTextColor.text,
             ),
           ],

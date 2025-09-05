@@ -3,6 +3,10 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/features/widgets/full_screen_loader.dart';
+import 'package:flutter_app/provider/language_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class LanguagePopupWidget extends StatefulWidget {
   final List<Map<String, String>> languages;
@@ -26,7 +30,14 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
   @override
   void initState() {
     super.initState();
-    currentSelected = widget.selectedLanguage;
+    final languageProvider = Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    );
+    currentSelected =
+        widget.selectedLanguage.isNotEmpty
+            ? widget.selectedLanguage
+            : languageProvider.locale;
   }
 
   @override
@@ -36,6 +47,8 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
         isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
     final notSelectedColor =
         isDark ? AppColors.darkSurface : AppColors.lightSurface;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -43,8 +56,8 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
         Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
           child: CustomText(
-            text: 'Select Language',
-            size: CustomTextSize.lg,
+            text: helper?.tr('language_popup.title') ?? '',
+            size: CustomTextSize.md,
             fontWeight: FontWeight.w600,
             color: CustomTextColor.primary,
             textAlign: TextAlign.left,
@@ -74,7 +87,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
                       CustomText(text: lang['flag']!, size: CustomTextSize.sm),
                       const SizedBox(width: 12),
                       CustomText(
-                        text: lang['name']!,
+                        text: lang['display']!,
                         size: CustomTextSize.sm,
                         color:
                             isSelected
@@ -95,12 +108,15 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
         ),
         // Buttons
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: EdgeInsets.symmetric(
+            vertical: AppSpacing.sm.w,
+            horizontal: AppSpacing.sm.h,
+          ),
           child: Row(
             children: [
               Expanded(
                 child: CustomButton(
-                  text: "Cancel",
+                  text: helper?.tr('language_popup.buttons.cancel') ?? '',
                   variant: ButtonVariant.outline,
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -108,10 +124,27 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
               AppSpacing.hmd,
               Expanded(
                 child: CustomButton(
-                  text: "Select",
-                  onPressed: () {
+                  text: helper?.tr('language_popup.buttons.select') ?? '',
+                  isDisabled: currentSelected == widget.selectedLanguage,
+                  onPressed: () async {
+                    final navigator = Navigator.of(context);
+
+                    FullScreenLoader.show(context);
+
                     widget.onSelected(currentSelected);
-                    Navigator.pop(context);
+                    final languageProvider = Provider.of<LanguageProvider>(
+                      context,
+                      listen: false,
+                    );
+                    String localeCode = currentSelected.toLowerCase();
+                    languageProvider.setLocale(localeCode);
+
+                    await Future.delayed(const Duration(milliseconds: 600));
+
+                    if (!mounted) return;
+
+                    FullScreenLoader.hide(context);
+                    navigator.pop();
                   },
                 ),
               ),
