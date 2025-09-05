@@ -3,6 +3,7 @@ import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
+import 'package:flutter_app/features/screens/dashboard/hotel_rooms_checkin_screen.dart';
 import 'package:flutter_app/features/screens/dashboard/hotel_rooms_screen.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
@@ -77,7 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             "id": "HOTEL-1002-XYZ-AB12",
             "name": "Ocean View Resort",
             "roomsToClean": 8,
-            "isCheckin": true,
+            "isCheckin": false,
             "rooms": [
               {
                 "roomId": "ROOM-1002-1",
@@ -259,15 +260,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(12),
                                 splashColor: primary.withValues(alpha: 0.2),
-                                onTap: () {
-                                  CustomNavigation.push(
-                                    context,
-                                    HotelRoomsScreen(
-                                      hotelId: hotel["id"],
-                                      hotelName: hotel["name"],
-                                    ),
+                                onTap: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  final hotelsString = prefs.getString(
+                                    'hotels',
                                   );
+
+                                  if (hotelsString != null) {
+                                    List<dynamic> hotelsList = jsonDecode(
+                                      hotelsString,
+                                    );
+                                    final currentHotel = hotelsList.firstWhere(
+                                      (h) => h['id'] == hotel['id'],
+                                    );
+                                    if (currentHotel['isCheckin'] == true) {
+                                      CustomNavigation.push(
+                                        context,
+                                        HotelRoomsWithCheckIn(
+                                          hotelId: hotel["id"],
+                                          hotelName: hotel["name"],
+                                        ),
+                                      );
+                                    } else {
+                                      CustomNavigation.push(
+                                        context,
+                                        HotelRoomsScreen(
+                                          hotelId: hotel["id"],
+                                          hotelName: hotel["name"],
+                                        ),
+                                      );
+                                    }
+                                  }
                                 },
+
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),

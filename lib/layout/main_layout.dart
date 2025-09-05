@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/constants/app_route_names.dart';
+import 'package:flutter_app/features/widgets/floating_timer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../features/widgets/custom_app_bar.dart';
 import '../features/widgets/custom_bottom_navigation_bar.dart';
 import '../features/widgets/custom_sidebar.dart';
+import '../core/constants/app_route_names.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget body;
@@ -17,8 +19,8 @@ class MainLayout extends StatefulWidget {
   final bool isActionsShow;
   final bool isCheckIn;
   final VoidCallback? onCheckedIn;
-
   final Map<String, dynamic>? hotelInfo;
+
   const MainLayout({
     super.key,
     required this.body,
@@ -42,6 +44,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   final GlobalKey<CustomSidebarState> _sidebarKey = GlobalKey();
+  bool showFloatingTimer = false;
 
   void _handleNavTap(int index) {
     String routeName;
@@ -63,8 +66,22 @@ class _MainLayoutState extends State<MainLayout> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _loadFloatingTimerPreference();
+  }
+
   void _toggleSidebar() {
     _sidebarKey.currentState?.toggleSidebar();
+  }
+
+  Future<void> _loadFloatingTimerPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasCheckedIn = prefs.getBool('hasCheckedIn') ?? false;
+    setState(() {
+      showFloatingTimer = hasCheckedIn;
+    });
   }
 
   @override
@@ -83,8 +100,9 @@ class _MainLayoutState extends State<MainLayout> {
         isCheckIn: widget.isCheckIn,
         onMenuPressed: _toggleSidebar,
       ),
-
-      body: widget.body,
+      body: Stack(
+        children: [widget.body, if (showFloatingTimer) FloatingTimerWidget()],
+      ),
       bottomNavigationBar:
           widget.showBottomNav
               ? CustomBottomNavigationBar(

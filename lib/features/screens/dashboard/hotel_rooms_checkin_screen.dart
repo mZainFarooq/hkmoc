@@ -32,7 +32,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
   void initState() {
     super.initState();
     loadHotelData();
-    _startTimer();
+    _initializeTimer();
   }
 
   Future<void> loadHotelData() async {
@@ -54,12 +54,25 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
     }
   }
 
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  Future<void> _initializeTimer() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int? checkInTime = prefs.getInt(
+      'checkInTime',
+    ); // <-- SharedPreferences se
+
+    if (checkInTime != null) {
+      final int elapsedSeconds =
+          ((DateTime.now().millisecondsSinceEpoch - checkInTime) ~/ 1000);
+      seconds = elapsedSeconds;
+    }
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       setState(() {
         seconds++;
       });
     });
+
+    setState(() {});
   }
 
   String _formatTime(int totalSeconds) {
@@ -82,10 +95,6 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
 
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) {
-        if (didPop) return;
-        Navigator.pop(context, true);
-      },
       child: MainLayout(
         title: widget.hotelName,
         showBottomNav: false,

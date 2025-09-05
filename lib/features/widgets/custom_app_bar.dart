@@ -49,16 +49,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final hotelsString = prefs.getString('hotels');
 
     if (hotelsString != null) {
-      List<dynamic> hotels = jsonDecode(hotelsString);
+      List<dynamic> hotelsList = jsonDecode(hotelsString);
 
-      for (var hotel in hotels) {
+      for (var hotel in hotelsList) {
         if (hotel['id'] == hotelId) {
           hotel['isCheckin'] = value;
           break;
         }
       }
 
-      await prefs.setString('hotels', jsonEncode(hotels));
+      await prefs.setString('hotels', jsonEncode(hotelsList));
     }
   }
 
@@ -141,7 +141,34 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             margin: EdgeInsets.only(right: 12.w),
             child: CustomButton(
               text: "Check in",
-              onPressed: () {
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+
+                // Check if user already checked in somewhere
+                final bool hasCheckedIn =
+                    prefs.getBool('hasCheckedIn') ?? false;
+                final String? currentHotelId = hotelInfo?['hotelId'];
+
+                if (hasCheckedIn && currentHotelId != null) {
+                  // Check if the current hotel is not the one already checked in
+                  final String? checkedInHotelId = prefs.getString(
+                    'checkedInHotelId',
+                  );
+                  if (checkedInHotelId != currentHotelId) {
+                    // Show toast
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "You are already checked in somewhere else. Please complete your current check-in first.",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                    return; // Stop further execution
+                  }
+                }
+
                 CustomPopup.show(
                   context,
                   content: Column(
@@ -173,25 +200,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             child: CustomButton(
                               text: "Yes",
                               onPressed: () async {
-                                Navigator.pop(context, true);
-                                Navigator.of(context).pop();
+                                Navigator.pop(context);
 
-                                final hotelId = hotelInfo?["hotelId"];
-                                final hotelName = hotelInfo?["hotelName"];
+                                if (currentHotelId != null) {
+                                  await updateHotelCheckIn(
+                                    currentHotelId,
+                                    true,
+                                  );
 
-                                if (hotelId != null) {
-                                  await updateHotelCheckIn(hotelId, true);
+                                  final checkInTime =
+                                      DateTime.now().millisecondsSinceEpoch;
+                                  await prefs.setInt(
+                                    'checkInTime',
+                                    checkInTime,
+                                  );
+
+                                  await prefs.setBool('hasCheckedIn', true);
+                                  await prefs.setString(
+                                    'checkedInHotelId',
+                                    currentHotelId,
+                                  );
                                 }
 
                                 if (onCheckedIn != null) {
                                   onCheckedIn!();
                                 }
 
-                                await CustomNavigation.push<bool>(
+                                await Navigator.pushReplacement(
                                   context,
-                                  HotelRoomsWithCheckIn(
-                                    hotelId: hotelId,
-                                    hotelName: hotelName,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => HotelRoomsWithCheckIn(
+                                          hotelId: currentHotelId!,
+                                          hotelName: hotelInfo?["hotelName"],
+                                        ),
                                   ),
                                 );
                               },
