@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
+import 'package:flutter_app/features/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter_app/features/screens/dashboard/hotel_rooms_checkin_screen.dart';
 import 'package:flutter_app/features/screens/notfications/notifcations_screen.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
@@ -25,6 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isNotficationIcon;
   final bool isActionsShow;
   final bool isCheckIn;
+  final bool isCheckOutBtnShow;
   final Map<String, dynamic>? hotelInfo;
   final VoidCallback? onCheckedIn;
 
@@ -42,6 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.hotelInfo,
     this.isCheckIn = false,
     this.onCheckedIn,
+    this.isCheckOutBtnShow = false,
   });
 
   Future<void> updateHotelCheckIn(String hotelId, bool value) async {
@@ -126,12 +129,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 )),
-          CustomText(
-            text: title,
-            size: CustomTextSize.lg,
-            fontWeight: FontWeight.w600,
-            color: CustomTextColor.text,
-            textAlign: TextAlign.center,
+          Expanded(
+            child: CustomText(
+              text: title,
+              size: CustomTextSize.lg,
+              fontWeight: FontWeight.w600,
+              color: CustomTextColor.text,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -144,18 +151,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
 
-                // Check if user already checked in somewhere
                 final bool hasCheckedIn =
                     prefs.getBool('hasCheckedIn') ?? false;
                 final String? currentHotelId = hotelInfo?['hotelId'];
 
                 if (hasCheckedIn && currentHotelId != null) {
-                  // Check if the current hotel is not the one already checked in
                   final String? checkedInHotelId = prefs.getString(
                     'checkedInHotelId',
                   );
                   if (checkedInHotelId != currentHotelId) {
-                    // Show toast
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -165,7 +169,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         duration: Duration(seconds: 3),
                       ),
                     );
-                    return; // Stop further execution
+                    return;
                   }
                 }
 
@@ -234,7 +238,82 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                           hotelId: currentHotelId!,
                                           hotelName: hotelInfo?["hotelName"],
                                         ),
+                                    settings: const RouteSettings(
+                                      name: "HotelRoomsWithCheckIn",
+                                    ),
                                   ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            ),
+          )
+        else if (isCheckOutBtnShow)
+          Container(
+            margin: EdgeInsets.only(right: 12.w),
+            child: CustomButton(
+              text: "Check Out",
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                final String? currentHotelId = hotelInfo?['hotelId'];
+
+                CustomPopup.show(
+                  context,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomText(
+                        text: "Are you sure to check out?",
+                        size: CustomTextSize.lg,
+                        fontWeight: FontWeight.bold,
+                        color: CustomTextColor.text,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: CustomButton(
+                              text: "No",
+                              variant: ButtonVariant.outline,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: CustomButton(
+                              text: "Yes",
+                              onPressed: () async {
+                                Navigator.pop(context);
+
+                                if (currentHotelId != null) {
+                                  await updateHotelCheckIn(
+                                    currentHotelId,
+                                    false,
+                                  );
+                                }
+
+                                await prefs.remove('checkInTime');
+                                await prefs.setBool('hasCheckedIn', false);
+                                await prefs.remove('checkedInHotelId');
+
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DashboardScreen(),
+                                  ),
+                                  (route) => false,
                                 );
                               },
                             ),

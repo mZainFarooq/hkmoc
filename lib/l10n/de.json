@@ -70,7 +70,106 @@
     "history": "Verlauf",
     "setting": "Einstellungen"
   },
+  "notification_screen": {
+    "screen_title": "Benachrichtigungen"
+  },
+  "leave_screen": {
+    "screen_title": "Krankheitsurlaub",
+    "tabs": {
+      "apply": "Urlaub beantragen",
+      "history": "Urlaubshistorie"
+    },
+    "form": {
+      "apply_title": "Krankheitsurlaub beantragen",
+      "title": "Titel",
+      "from_date": "Von Datum",
+      "to_date": "Bis Datum",
+      "details": "Details",
+      "submit": "Urlaub einreichen"
+    },
+    "history": {
+      "status": {
+        "approved": "Genehmigt",
+        "cancelled": "Storniert"
+      }
+    }
+  },
 
+  "help_n_support_screen": {
+    "screen_title": "Hilfe & Support",
+    "need_help_title": "Brauchen Sie Hilfe?",
+    "need_help_description": "Wenn Sie Probleme mit der App haben, wenden Sie sich bitte an unser Support-Team. Wir sind 24/7 für Sie da und sorgen dafür, dass Ihre Erfahrung reibungslos und unkompliziert verläuft.",
+    "contact_us_title": "Kontaktieren Sie uns",
+    "contact_us_description": "Sie können unser Support-Team jederzeit per E-Mail, Telefon oder Live-Chat erreichen. Wir sind bestrebt, Ihre Probleme umgehend zu lösen.",
+    "email": "📧 E-Mail: support@hotelapp.com",
+    "phone": "📞 Telefon: +92 300 1234567",
+    "chat": "💬 Live-Chat: Rund um die Uhr in der App verfügbar",
+
+    "additional_tips_title": "Zusätzliche Tipps",
+    "additional_tips": "• Halten Sie Ihre App immer auf dem neuesten Stand.\n• Leeren Sie regelmäßig den Cache, um App-Verlangsamungen zu vermeiden.\n• Stellen Sie sicher, dass Sie eine stabile Internetverbindung haben.\n• Melden Sie sofort alle Fehler oder Probleme, damit wir sie beheben können."
+  },
+  "about_app_screen": {
+    "screen_title": "Über die App",
+    "app_name": "Hotelreinigungsservice App",
+    "description": "Willkommen bei unserer Hotelreinigungsservice-App! Diese Anwendung wurde entwickelt, um den Hotelbetrieb zu optimieren und die Gästezufriedenheit zu verbessern. Das Personal kann Reinigungspläne, Wäscheanforderungen und andere Dienstleistungen effizient verwalten, während Gäste bequem direkt von ihren Zimmern oder über ihre mobilen Geräte Dienstleistungen anfordern können.",
+    "features_title": "Hauptfunktionen",
+    "feature_0_title": "Zimmerreinigungsanfragen",
+    "feature_0_description": "Gäste können die Zimmerreinigung zu ihren bevorzugten Zeiten anfordern.",
+    "feature_1_title": "Wäscheservice",
+    "feature_1_description": "Wäscheabholung und -lieferung direkt über die App anfordern.",
+    "feature_2_title": "Aufgabenverwaltung für Mitarbeiter",
+    "feature_2_description": "Mitarbeiter können zugewiesene Aufgaben effizient verwalten und verfolgen.",
+    "feature_3_title": "Benachrichtigungen",
+    "feature_3_description": "Rechtzeitige Benachrichtigungen zu Service-Updates und Zeitplänen erhalten.",
+    "feature_4_title": "Mehrsprachige Unterstützung",
+    "feature_4_description": "Unterstützt mehrere Sprachen für unterschiedliche Benutzer.",
+    "version": "Version 1.0.0",
+    "developed_by": "Entwickelt mit ❤️ zur Verbesserung der Hotelexpizienz und Gästeerfahrung."
+  },
+
+  "terms_n_conditions": {
+    "screen_title": "Allgemeine Geschäftsbedingungen",
+    "intro": "Willkommen in unserer App! Bitte lesen Sie diese Allgemeinen Geschäftsbedingungen sorgfältig durch, bevor Sie unsere Dienste nutzen. Durch den Zugriff auf oder die Nutzung unserer App erklären Sie sich mit diesen Bedingungen einverstanden. Wenn Sie mit einem Teil dieser Bedingungen nicht einverstanden sind, verwenden Sie unsere App bitte nicht.",
+
+    "section_1_title": "1. Nutzung des Dienstes",
+    "section_1_content": "Sie stimmen zu, die App nur für rechtmäßige Zwecke zu nutzen und auf eine Weise, die die Rechte anderer nicht verletzt. Sie dürfen die App nicht für betrügerische oder schädliche Aktivitäten verwenden, einschließlich, aber nicht beschränkt auf Hacking, Spamming oder die Verbreitung bösartiger Inhalte.",
+
+    "section_2_title": "2. Kontoverantwortung",
+    "section_2_content": "Sie sind für die Vertraulichkeit Ihrer Kontoinformationen und Ihres Passworts verantwortlich. Sie erklären sich damit einverstanden, uns unverzüglich über jede unbefugte Nutzung Ihres Kontos oder jede andere Sicherheitsverletzung zu informieren.",
+
+    "section_3_title": "3. Datenschutz",
+    "section_3_content": "Wir respektieren Ihre Privatsphäre. Alle gesammelten persönlichen Informationen werden gemäß unserer Datenschutzrichtlinie behandelt. Durch die Nutzung der App stimmen Sie der Erfassung, Verwendung und Weitergabe Ihrer Informationen wie in der Datenschutzrichtlinie beschrieben zu.",
+
+    "section_4_title": "4. Geistiges Eigentum",
+    "section_4_content": "Alle Inhalte, Funktionen und Features der App sind geistiges Eigentum des Unternehmens und durch Urheberrecht, Markenrecht und andere Gesetze geschützt. Sie dürfen keine Inhalte ohne unsere ausdrückliche schriftliche Genehmigung reproduzieren, verbreiten oder abgeleitete Werke erstellen.",
+
+    "section_5_title": "5. Haftungsbeschränkung",
+    "section_5_content": "Wir sind nicht verantwortlich für Schäden, Verluste oder Kosten, die aus der Nutzung oder der Unfähigkeit zur Nutzung unserer App entstehen. Die App wird ohne jegliche Garantien 'wie besehen' bereitgestellt.",
+
+    "section_6_title": "6. Kündigung",
+    "section_6_content": "Wir können Ihren Zugriff auf die App nach eigenem Ermessen, ohne Vorankündigung oder Haftung, aussetzen oder beenden, wenn Sie diese Bedingungen verletzen oder die App, andere Benutzer oder Dritte schädigen.",
+
+    "section_7_title": "7. Änderungen der Bedingungen",
+    "section_7_content": "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Die fortgesetzte Nutzung der App stellt die Zustimmung zu den aktualisierten Bedingungen dar. Wir empfehlen, die Bedingungen regelmäßig zu überprüfen.",
+
+    "accept_button": "Akzeptieren"
+  },
+
+  "privacy_policy_screen": {
+    "title": "Datenschutzrichtlinie",
+    "data": "1. Einführung\nWir legen großen Wert auf Ihre Privatsphäre und verpflichten uns, Ihre persönlichen Daten zu schützen. Diese Datenschutzrichtlinie erklärt, wie wir Ihre Daten erfassen, verwenden und schützen, wenn Sie unsere Dienste nutzen.\n\n2. Datenerhebung\nWir können Informationen wie Ihren Namen, Ihre E-Mail-Adresse, Nutzungsdaten und Geräteinformationen erfassen, um unsere Dienste zu verbessern und personalisierte Erlebnisse zu bieten.\n\n3. Verwendung der Informationen\nIhre Daten können verwendet werden, um:\n- Unsere Dienste bereitzustellen und zu verbessern\n- Mit Ihnen zu kommunizieren\n- Ihr Erlebnis zu personalisieren\n- Gesetzlichen Verpflichtungen nachzukommen\n\n4. Datenweitergabe\nWir verkaufen Ihre persönlichen Daten nicht. Wir können Daten jedoch weitergeben an:\n- Dienstleister\n- Gesetzliche Behörden, wenn dies gesetzlich vorgeschrieben ist\n- Geschäftspartner für begrenzte Zwecke\n\n5. Sicherheit\nWir implementieren geeignete technische und organisatorische Maßnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Missbrauch zu schützen.\n\n6. Cookies & Tracking\nWir verwenden Cookies und ähnliche Technologien, um das Benutzererlebnis zu verbessern, Trends zu analysieren und die Nutzung der Website zu überwachen.\n\n7. Rechte der Nutzer\nSie haben das Recht:\n- Auf Ihre Daten zuzugreifen und eine Kopie anzufordern\n- Unrichtige Informationen zu berichtigen\n- Die Löschung Ihrer persönlichen Daten zu verlangen\n- Ihre Einwilligung zurückzuziehen, soweit anwendbar\n\n8. Änderungen der Richtlinie\nWir können diese Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Änderungen werden über die App oder die Website kommuniziert.\n\n9. Kontaktieren Sie uns\nWenn Sie Fragen oder Bedenken zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy@example.com.\n\nVielen Dank, dass Sie unseren Diensten vertrauen!",
+    "accept_button": "Akzeptieren"
+  },
+
+  "app_permissions_screen": {
+    "title": "App-Berechtigungen",
+    "notifications": "Benachrichtigungen",
+    "camera": "Kamera",
+    "location": "Standort",
+    "microphone": "Mikrofon",
+    "contacts": "Kontakte",
+    "storage": "Speicher"
+  },
   "sidebar_options": {
     "account_section": "Konto",
     "profile": "Profil",

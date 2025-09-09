@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomNavigation {
-  // ✅ Push with result
-  static Future<T?> push<T>(BuildContext context, Widget page) {
+  // ✅ Push with result and optional RouteSettings
+  static Future<T?> push<T>(
+    BuildContext context,
+    Widget page, {
+    RouteSettings? settings,
+  }) {
     return Navigator.push<T>(
       context,
       PageRouteBuilder(
+        settings: settings, // optional
         pageBuilder: (context, animation, secondaryAnimation) => page,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
@@ -24,11 +29,16 @@ class CustomNavigation {
     );
   }
 
-  // ✅ Replace with result
-  static Future<T?> replace<T>(BuildContext context, Widget page) {
+  // ✅ Replace with result and optional RouteSettings
+  static Future<T?> replace<T>(
+    BuildContext context,
+    Widget page, {
+    RouteSettings? settings,
+  }) {
     return Navigator.pushReplacement<T, T>(
       context,
       PageRouteBuilder(
+        settings: settings, // optional
         pageBuilder: (context, animation, secondaryAnimation) => page,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);

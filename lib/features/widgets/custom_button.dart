@@ -96,6 +96,7 @@ class _CustomButtonState extends State<CustomButton> {
               text: widget.text,
               size: CustomTextSize.sm,
               fontWeight: FontWeight.w700,
+              textAlign: TextAlign.center,
               color:
                   widget.variant == ButtonVariant.primary
                       ? CustomTextColor.alwaysWhite

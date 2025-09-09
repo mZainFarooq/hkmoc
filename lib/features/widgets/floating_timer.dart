@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/utils/custom_navigation.dart';
+import 'package:flutter_app/features/screens/dashboard/hotel_rooms_checkin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FloatingTimerWidget extends StatefulWidget {
@@ -41,6 +44,38 @@ class _FloatingTimerWidgetState extends State<FloatingTimerWidget> {
     setState(() {});
   }
 
+  Future<void> _navigateToCheckedInHotel() async {
+    final currentRoute = ModalRoute.of(context)?.settings.name;
+    if (currentRoute == "HotelRoomsWithCheckIn") {
+      return; // already on this screen
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final String? checkedInHotelId = prefs.getString('checkedInHotelId');
+    final String? hotelsString = prefs.getString('hotels');
+
+    if (checkedInHotelId != null && hotelsString != null) {
+      List<dynamic> hotelsList = jsonDecode(hotelsString);
+      final hotel = hotelsList.firstWhere(
+        (h) => h['id'] == checkedInHotelId,
+        orElse: () => null,
+      );
+
+      if (hotel != null) {
+        final hotelName = hotel['name'];
+        CustomNavigation.push(
+          context,
+          HotelRoomsWithCheckIn(
+            hotelId: checkedInHotelId,
+            hotelName: hotelName,
+          ),
+          settings: const RouteSettings(name: "HotelRoomsWithCheckIn"),
+        );
+        return;
+      }
+    }
+  }
+
   @override
   void dispose() {
     timer?.cancel();
@@ -72,6 +107,7 @@ class _FloatingTimerWidgetState extends State<FloatingTimerWidget> {
                 left = left.clamp(0.0, size.width - 70);
               });
             },
+            onTap: _navigateToCheckedInHotel,
             child: Container(
               width: 70,
               height: 70,

@@ -6,6 +6,9 @@ import '../features/widgets/custom_bottom_navigation_bar.dart';
 import '../features/widgets/custom_sidebar.dart';
 import '../core/constants/app_route_names.dart';
 
+// Step 1: Define a global RouteObserver
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class MainLayout extends StatefulWidget {
   final Widget body;
   final String title;
@@ -18,6 +21,7 @@ class MainLayout extends StatefulWidget {
   final bool isSidebarEnabled;
   final bool isActionsShow;
   final bool isCheckIn;
+  final bool isCheckOutBtnShow;
   final VoidCallback? onCheckedIn;
   final Map<String, dynamic>? hotelInfo;
 
@@ -33,6 +37,7 @@ class MainLayout extends StatefulWidget {
     this.user,
     this.isCheckIn = false,
     this.isSidebarEnabled = false,
+    this.isCheckOutBtnShow = false,
     this.isNotficationIcon = true,
     this.hotelInfo,
     this.onCheckedIn,
@@ -42,7 +47,7 @@ class MainLayout extends StatefulWidget {
   State<MainLayout> createState() => _MainLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _MainLayoutState extends State<MainLayout> with RouteAware {
   final GlobalKey<CustomSidebarState> _sidebarKey = GlobalKey();
   bool showFloatingTimer = false;
 
@@ -72,6 +77,29 @@ class _MainLayoutState extends State<MainLayout> {
     _loadFloatingTimerPreference();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Subscribe to route observer
+    final route = ModalRoute.of(context);
+    if (route is PageRoute) {
+      routeObserver.subscribe(this, route);
+    }
+    _loadFloatingTimerPreference();
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  // Called when this screen becomes visible again (system back, gesture, or pop)
+  @override
+  void didPopNext() {
+    _loadFloatingTimerPreference();
+  }
+
   void _toggleSidebar() {
     _sidebarKey.currentState?.toggleSidebar();
   }
@@ -91,6 +119,7 @@ class _MainLayoutState extends State<MainLayout> {
         title: widget.title,
         isNotficationIcon: widget.isNotficationIcon,
         isBackAction: widget.isBackAction,
+        isCheckOutBtnShow: widget.isCheckOutBtnShow,
         hotelInfo: widget.hotelInfo,
         isSidebarEnabled: widget.isSidebarEnabled,
         isUser: true,

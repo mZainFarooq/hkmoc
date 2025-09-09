@@ -2,16 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class AboutAppScreen extends StatelessWidget {
   const AboutAppScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
+
+    final features = [
+      {
+        "title": helper?.tr("about_app_screen.feature_0_title") ?? "",
+        "description":
+            helper?.tr("about_app_screen.feature_0_description") ?? "",
+      },
+      {
+        "title": helper?.tr("about_app_screen.feature_1_title") ?? "",
+        "description":
+            helper?.tr("about_app_screen.feature_1_description") ?? "",
+      },
+      {
+        "title": helper?.tr("about_app_screen.feature_2_title") ?? "",
+        "description":
+            helper?.tr("about_app_screen.feature_2_description") ?? "",
+      },
+      {
+        "title": helper?.tr("about_app_screen.feature_3_title") ?? "",
+        "description":
+            helper?.tr("about_app_screen.feature_3_description") ?? "",
+      },
+      {
+        "title": helper?.tr("about_app_screen.feature_4_title") ?? "",
+        "description":
+            helper?.tr("about_app_screen.feature_4_description") ?? "",
+      },
+    ];
+
     return MainLayout(
       currentIndex: 4,
-      title: "About App",
+      title: helper?.tr("about_app_screen.screen_title") ?? "",
       isBackAction: true,
       showBottomNav: false,
       body: SingleChildScrollView(
@@ -20,59 +53,50 @@ class AboutAppScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // App Name
             CustomText(
-              text: "Hotel Cleaning Service App",
+              text: helper?.tr("about_app_screen.app_name") ?? "",
               size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               color: CustomTextColor.text,
             ),
             AppSpacing.vmd,
+
+            // Description
             CustomText(
-              text:
-                  "Welcome to our Hotel Cleaning Service App! This application is designed to streamline hotel operations and improve guest satisfaction. "
-                  "Staff can efficiently manage cleaning schedules, laundry requests, and other services, "
-                  "while guests can conveniently request services directly from their rooms or via their mobile devices.",
+              text: helper?.tr("about_app_screen.description") ?? "",
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),
             AppSpacing.vlg,
+
+            // Features Title
             CustomText(
-              text: "Key Features:",
+              text: helper?.tr("about_app_screen.features_title") ?? "",
               size: CustomTextSize.lg,
               fontWeight: FontWeight.w600,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vsm,
-            _buildFeatureItem(
-              "Room Cleaning Requests",
-              "Guests can request room cleaning at their preferred time slots.",
+
+            // Features List
+            ...features.map(
+              (f) => _buildFeatureItem(f["title"]!, f["description"]!),
             ),
-            _buildFeatureItem(
-              "Laundry Services",
-              "Request laundry collection and delivery directly through the app.",
-            ),
-            _buildFeatureItem(
-              "Staff Task Management",
-              "Staff can manage and track assigned tasks efficiently.",
-            ),
-            _buildFeatureItem(
-              "Notifications",
-              "Receive timely notifications for service updates and schedules.",
-            ),
-            _buildFeatureItem(
-              "Multi-Language Support",
-              "Supports multiple languages for diverse users.",
-            ),
+
             AppSpacing.vlg,
+
+            // Version
             CustomText(
-              text: "Version 1.0.0",
+              text: helper?.tr("about_app_screen.version") ?? "",
               fontSize: 12.sp,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vsm,
+
+            // Developed By
             CustomText(
-              text:
-                  "Developed with ❤️ to improve hotel management efficiency and guest experience.",
+              text: helper?.tr("about_app_screen.developed_by") ?? "",
               fontSize: 14.sp,
               color: CustomTextColor.textSecondary,
             ),
@@ -85,7 +109,7 @@ class AboutAppScreen extends StatelessWidget {
 
   Widget _buildFeatureItem(String title, String description) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.sm.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,7 +119,7 @@ class AboutAppScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: CustomTextColor.text,
           ),
-          SizedBox(height: 4.h),
+          AppSpacing.vxs,
           CustomText(
             text: description,
             size: CustomTextSize.sm,

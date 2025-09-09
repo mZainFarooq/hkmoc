@@ -34,10 +34,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> loadHotels() async {
     final prefs = await SharedPreferences.getInstance();
     final String? hotelsString = prefs.getString('hotels');
+
     if (hotelsString != null) {
+      List<Map<String, dynamic>> loadedHotels = List<Map<String, dynamic>>.from(
+        json.decode(hotelsString),
+      );
+
+      final hasCheckedIn = prefs.getBool('hasCheckedIn') ?? false;
+      if (!hasCheckedIn) {
+        for (var hotel in loadedHotels) {
+          hotel['isCheckin'] = false;
+        }
+      }
+
       setState(() {
         hotels = List<Map<String, dynamic>>.from(json.decode(hotelsString));
       });
+
+      await prefs.setString('hotels', jsonEncode(loadedHotels));
     } else {
       setState(() {
         hotels = [
@@ -280,6 +294,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         HotelRoomsWithCheckIn(
                                           hotelId: hotel["id"],
                                           hotelName: hotel["name"],
+                                        ),
+                                        settings: const RouteSettings(
+                                          name: "HotelRoomsWithCheckIn",
                                         ),
                                       );
                                     } else {

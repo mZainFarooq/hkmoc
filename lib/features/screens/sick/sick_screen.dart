@@ -4,7 +4,9 @@ import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class SickLeavePage extends StatefulWidget {
   const SickLeavePage({super.key});
@@ -49,9 +51,11 @@ class _SickLeavePageState extends State<SickLeavePage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     return MainLayout(
-      title: "Sick Leave",
+      title: helper?.tr("leave_screen.screen_title") ?? "",
       isBackAction: true,
       currentIndex: 3,
       showBottomNav: false,
@@ -83,10 +87,10 @@ class _SickLeavePageState extends State<SickLeavePage>
                 horizontal: 20,
                 vertical: 6,
               ),
-              tabs: const [
+              tabs: [
                 Tab(
                   child: CustomText(
-                    text: "Apply Leave",
+                    text: helper?.tr("leave_screen.tabs.apply") ?? "",
                     color: CustomTextColor.primary,
                     size: CustomTextSize.md,
                     fontWeight: FontWeight.w600,
@@ -94,7 +98,7 @@ class _SickLeavePageState extends State<SickLeavePage>
                 ),
                 Tab(
                   child: CustomText(
-                    text: "Leave History",
+                    text: helper?.tr("leave_screen.tabs.history") ?? "",
                     color: CustomTextColor.primary,
                     size: CustomTextSize.md,
                     fontWeight: FontWeight.w600,
@@ -120,6 +124,8 @@ class _SickLeavePageState extends State<SickLeavePage>
   }
 
   Widget _buildFormUI(BuildContext context, bool isDark) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
@@ -130,17 +136,19 @@ class _SickLeavePageState extends State<SickLeavePage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: "Apply for Sick Leave",
-            fontSize: 18.sp,
+            text: helper?.tr("leave_screen.form.apply_title") ?? "",
+            size: CustomTextSize.md,
             fontWeight: FontWeight.w600,
             color: CustomTextColor.primary,
           ),
-          SizedBox(height: AppSpacing.lg.h),
+          AppSpacing.vlg,
 
           // Title Field
-          _styledField(hint: "Title", isDark: isDark),
-          SizedBox(height: AppSpacing.md.h),
-
+          _styledField(
+            hint: helper?.tr("leave_screen.form.title") ?? "",
+            isDark: isDark,
+          ),
+          AppSpacing.vmd,
           // Dates Row
           if (!todayOnly)
             Row(
@@ -148,28 +156,43 @@ class _SickLeavePageState extends State<SickLeavePage>
                 Expanded(
                   child: GestureDetector(
                     onTap: () => _pickDate(context, true),
-                    child: _dateBox("From Date", fromDate, isDark),
+                    child: _dateBox(
+                      helper?.tr("leave_screen.form.from_date") ?? "",
+                      fromDate,
+                      isDark,
+                    ),
                   ),
                 ),
-                SizedBox(width: AppSpacing.md.w),
+                AppSpacing.hmd,
                 Expanded(
                   child: GestureDetector(
                     onTap: () => _pickDate(context, false),
-                    child: _dateBox("To Date", toDate, isDark),
+                    child: _dateBox(
+                      helper?.tr("leave_screen.form.to_date") ?? "",
+                      toDate,
+                      isDark,
+                    ),
                   ),
                 ),
               ],
             ),
-          if (!todayOnly) SizedBox(height: AppSpacing.md.h),
+          if (!todayOnly) AppSpacing.vmd,
 
           // Details TextArea
-          _styledField(hint: "Details", isDark: isDark, maxLines: 4),
-          SizedBox(height: AppSpacing.lg.h),
+          _styledField(
+            hint: helper?.tr("leave_screen.form.details") ?? "",
+            isDark: isDark,
+            maxLines: 4,
+          ),
+          AppSpacing.vlg,
 
           // Submit Button
           SizedBox(
             width: double.infinity,
-            child: CustomButton(text: "Submit Leave", onPressed: () {}),
+            child: CustomButton(
+              text: helper?.tr("leave_screen.form.submit") ?? "",
+              onPressed: () {},
+            ),
           ),
         ],
       ),

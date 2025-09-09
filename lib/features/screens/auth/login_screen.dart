@@ -113,54 +113,64 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   CustomPopup.show(
                     context,
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text:
-                                    helper?.tr(
-                                      'login_screen.reset_method_title',
-                                    ) ??
-                                    '',
-                                size: CustomTextSize.md,
-                                fontWeight: FontWeight.bold,
+                    content: IntrinsicWidth(
+                      child: IntrinsicHeight(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.xs.h,
+                                vertical: AppSpacing.xs.w,
                               ),
-                              AppSpacing.vxs,
-                              CustomText(
-                                text:
-                                    helper?.tr(
-                                      'login_screen.reset_method_description',
-                                    ) ??
-                                    '',
-                                size: CustomTextSize.sm,
-                                color: CustomTextColor.textSecondary,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        helper?.tr(
+                                          'login_screen.reset_method_title',
+                                        ) ??
+                                        '',
+                                    size: CustomTextSize.md,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  AppSpacing.vxs,
+                                  CustomText(
+                                    text:
+                                        helper?.tr(
+                                          'login_screen.reset_method_description',
+                                        ) ??
+                                        '',
+                                    size: CustomTextSize.sm,
+                                    color: CustomTextColor.textSecondary,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            AppSpacing.vmd,
+                            CustomButton(
+                              text:
+                                  helper?.tr('login_screen.reset_myself') ?? '',
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            AppSpacing.vsm,
+                            CustomButton(
+                              text:
+                                  helper?.tr('login_screen.reset_by_admin') ??
+                                  '',
+                              variant: ButtonVariant.outline,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
                         ),
-                        AppSpacing.vmd,
-                        CustomButton(
-                          text: helper?.tr('login_screen.reset_myself') ?? '',
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        AppSpacing.vsm,
-                        CustomButton(
-                          text: helper?.tr('login_screen.reset_by_admin') ?? '',
-                          variant: ButtonVariant.outline,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
+                      ),
                     ),
                   );
                 },
