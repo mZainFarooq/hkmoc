@@ -10,8 +10,10 @@ import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HotelRoomsWithCheckIn extends StatefulWidget {
@@ -243,7 +245,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                             const SizedBox(height: 8),
 
                             SizedBox(
-                              height: 90,
+                              height: 90.w,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _selectedFiles.length,
@@ -344,7 +346,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                         ),
                       ),
 
-                    const SizedBox(height: 16),
+                    AppSpacing.vmd,
 
                     // Bottom row (Submit + SpeedDial)
                     Row(
@@ -495,6 +497,8 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     return PopScope(
       canPop: true,
@@ -529,12 +533,14 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
 
                       /// Heading
                       CustomText(
-                        text: "Rooms to Clean",
-                        size: CustomTextSize.xl,
+                        text:
+                            helper?.tr('hotel_room_screen.rooms_to_clean') ??
+                            '',
+                        size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
                       ),
-                      AppSpacing.vmd,
+                      AppSpacing.vsm,
 
                       /// Room List
                       Expanded(

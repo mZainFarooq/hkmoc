@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_app/features/screens/dashboard/hotel_rooms_checkin_scree
 import 'package:flutter_app/features/screens/dashboard/hotel_rooms_screen.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/features/widgets/greet_card.dart';
 import 'package:flutter_app/layout/main_layout.dart';
 import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -211,36 +211,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 26,
-                  backgroundImage: AssetImage(avatarImage),
-                ),
-                const SizedBox(width: 14),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text:
-                          "${helper?.tr('dashboard_screen.greeting') ?? ''}, Muhammad Zain",
-
-                      size: CustomTextSize.lg,
-                      fontWeight: FontWeight.bold,
-                      color: CustomTextColor.text,
-                    ),
-                    const SizedBox(height: 4),
-                    CustomText(
-                      text: getFormattedDate(),
-                      size: CustomTextSize.sm,
-                      color: CustomTextColor.textSecondary,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            AppSpacing.vlg,
+            buildWaveCard(context),
+            AppSpacing.vmd,
             CustomText(
               text: helper?.tr('dashboard_screen.assigned_hotels') ?? '',
               size: CustomTextSize.md,

@@ -3,7 +3,9 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class SalaryScreen extends StatelessWidget {
   const SalaryScreen({super.key});
@@ -33,15 +35,18 @@ class SalaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? AppColors.darkSurface : AppColors.lightSurface;
     final primaryColor =
         isDark ? AppColors.lightPrimary : AppColors.darkPrimary;
 
     return MainLayout(
-      title: "Salary Details",
+      title: helper?.tr('salary_screen.screen_title') ?? '',
       isBackAction: true,
       currentIndex: 3,
+      showBottomNav: false,
       body: ListView.builder(
         padding: EdgeInsets.all(AppSpacing.md.w),
         itemCount: salaries.length,
@@ -73,17 +78,33 @@ class SalaryScreen extends StatelessWidget {
                 AppSpacing.vsm,
                 Divider(color: Colors.grey.shade400),
                 AppSpacing.vsm,
-                _buildRow("Total Days", salary["totalDays"].toString()),
-                _buildRow("Leaves Taken", salary["leaves"].toString()),
-                _buildRow("Basic Salary", "₹${salary["basicSalary"]}"),
-                _buildRow("Deductions", "₹${salary["deduction"]}"),
                 _buildRow(
-                  "Net Salary",
-                  "₹${salary["netSalary"]}",
+                  helper?.tr('salary_screen.total_days') ?? '',
+                  salary["totalDays"].toString(),
+                ),
+                _buildRow(
+                  helper?.tr('salary_screen.leaves_taken') ?? '',
+                  salary["leaves"].toString(),
+                ),
+                _buildRow(
+                  helper?.tr('salary_screen.basic_salary') ?? '',
+                  "${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["basicSalary"]}",
+                ),
+                _buildRow(
+                  helper?.tr('salary_screen.deductions') ?? '',
+                  "${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["deduction"]}",
+                ),
+                _buildRow(
+                  helper?.tr('salary_screen.net_salary') ?? '',
+
+                  " ${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["netSalary"]}",
                   valueColor: primaryColor,
                   fontWeight: FontWeight.w600,
                 ),
-                _buildRow("Reason", salary["deductionReason"]),
+                _buildRow(
+                  helper?.tr('salary_screen.reason') ?? '',
+                  salary["deductionReason"],
+                ),
               ],
             ),
           );

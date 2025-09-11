@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
 import 'package:flutter_app/features/screens/auth/login_screen.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:provider/provider.dart';
 import '../../../layout/main_layout.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,19 +22,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final String avatarUrl = 'https://i.pravatar.cc/300';
   final String fullName = 'Charlotte Elizabeth';
   final String phoneNumber = '+92 300 1234567';
-  final String role = 'Employ';
   final String address = 'Lahore, Pakistan';
   final String createdAt = '2024-01-10';
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? AppColors.darkSurface : AppColors.lightSurface;
     final primaryColor =
         isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
 
     return MainLayout(
-      title: 'Profile',
+      title: helper?.tr('profile_screen.screen_title') ?? '',
       currentIndex: 2,
       showBottomNav: false,
       isBackAction: true,
@@ -91,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 _buildInfoChip(
                   Icons.calendar_today,
-                  'Joined: $createdAt',
+                  '${helper?.tr('profile_screen.joined_date_prefix') ?? ''} $createdAt',
                   primaryColor,
                   CustomTextColor.textSecondary,
                 ),
@@ -122,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Divider(height: 32.h, color: Colors.grey),
                   _buildDetailRow(
                     Icons.person_outline,
-                    role,
+                    helper?.tr('profile_screen.role_label') ?? '',
                     CustomTextColor.textSecondary,
                   ),
                   Divider(height: 32.h, color: Colors.grey),
@@ -138,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               width: double.infinity,
               child: CustomButton(
-                text: 'Logout',
+                text: helper?.tr('profile_screen.logout_button') ?? '',
                 onPressed: () {
                   CustomNavigation.push(context, LoginScreen());
                 },

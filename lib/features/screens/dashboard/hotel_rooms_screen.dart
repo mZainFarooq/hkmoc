@@ -3,7 +3,9 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,6 +56,8 @@ class _HotelRoomsScreenState extends State<HotelRoomsScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     return MainLayout(
       title: widget.hotelName,
@@ -76,12 +80,13 @@ class _HotelRoomsScreenState extends State<HotelRoomsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: "Rooms to Clean",
-                      size: CustomTextSize.xl,
+                      text:
+                          helper?.tr('hotel_room_screen.rooms_to_clean') ?? '',
+                      size: CustomTextSize.lg,
                       fontWeight: FontWeight.bold,
                       color: CustomTextColor.text,
                     ),
-                    AppSpacing.vmd,
+                    AppSpacing.vsm,
                     Expanded(
                       child: ListView.builder(
                         itemCount: hotel!["rooms"].length,

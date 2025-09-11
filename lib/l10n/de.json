@@ -170,6 +170,27 @@
     "contacts": "Kontakte",
     "storage": "Speicher"
   },
+
+  "profile_screen": {
+    "screen_title": "Profil",
+    "joined_date_prefix": "Beigetreten am:",
+    "logout_button": "Abmelden",
+    "role_label": "Angestellte"
+  },
+  "salary_screen": {
+    "screen_title": "Gehaltsdetails",
+    "total_days": "Gesamttage",
+    "leaves_taken": "Genommene Urlaubstage",
+    "basic_salary": "Grundgehalt",
+    "deductions": "Abzüge",
+    "net_salary": "Nettogehalt",
+    "reason": "Begründung",
+    "currency_symbol": "₹"
+  },
+  "hotel_room_screen": {
+    "rooms_to_clean": "Zimmer zum Reinigen"
+  },
+
   "sidebar_options": {
     "account_section": "Konto",
     "profile": "Profil",

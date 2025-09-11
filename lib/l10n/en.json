@@ -170,6 +170,27 @@
     "contacts": "Contacts",
     "storage": "Storage"
   },
+  "profile_screen": {
+    "screen_title": "Profile",
+    "joined_date_prefix": "Joined:",
+    "logout_button": "Logout",
+    "role_label": "Employ"
+  },
+
+  "salary_screen": {
+    "screen_title": "Salary Details",
+    "total_days": "Total Days",
+    "leaves_taken": "Leaves Taken",
+    "basic_salary": "Basic Salary",
+    "deductions": "Deductions",
+    "net_salary": "Net Salary",
+    "reason": "Reason",
+    "currency_symbol": "$"
+  },
+
+  "hotel_room_screen": {
+    "rooms_to_clean": "Rooms to clean"
+  },
 
   "sidebar_options": {
     "account_section": "Account",
