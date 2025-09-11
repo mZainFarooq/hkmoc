@@ -191,6 +191,22 @@
     "rooms_to_clean": "Zimmer zum Reinigen"
   },
 
+  "app_bar_widget": {
+    "checkout": "Auschecken",
+    "checkin": "Einchecken"
+  },
+
+  "checkin_popup": {
+    "confirmation_message": "Sind Sie sicher, dass Sie einchecken möchten?",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+
+  "checkout_popup": {
+    "confirmation_message": "Sind Sie sicher, dass Sie auschecken möchten?",
+    "yes": "Ja",
+    "no": "Nein"
+  },
   "sidebar_options": {
     "account_section": "Konto",
     "profile": "Profil",

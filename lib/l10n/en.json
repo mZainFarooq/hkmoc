@@ -192,6 +192,23 @@
     "rooms_to_clean": "Rooms to clean"
   },
 
+  "app_bar_widget": {
+    "checkout": "Checkout",
+    "checkin": "Checkin"
+  },
+
+  "checkin_popup": {
+    "confirmation_message": "Are you sure to check in?",
+    "yes": "Yes",
+    "no": "No"
+  },
+
+  "checkout_popup": {
+    "confirmation_message": "Are you sure to check out?",
+    "yes": "Yes",
+    "no": "No"
+  },
+
   "sidebar_options": {
     "account_section": "Account",
     "profile": "Profile",

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/core/utils/custom_navigation.dart';
 import 'package:flutter_app/features/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter_app/features/screens/dashboard/hotel_rooms_checkin_screen.dart';
@@ -70,6 +71,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
     final themeIcon = isDarkMode ? Icons.dark_mode : Icons.light_mode;
+
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    final helper = languageProvider.helper;
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -147,7 +151,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             margin: EdgeInsets.only(right: 12.w),
             child: CustomButton(
-              text: "Check in",
+              text: helper?.tr('app_bar_widget.checkin') ?? '',
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
 
@@ -180,29 +184,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomText(
-                        text: "Are you sure to check in?",
+                        text:
+                            helper?.tr('checkin_popup.confirmation_message') ??
+                            '',
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 20.h),
+                      AppSpacing.vmd,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
                             child: CustomButton(
-                              text: "No",
+                              text: helper?.tr('checkin_popup.no') ?? '',
                               variant: ButtonVariant.outline,
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-                          SizedBox(width: 12.w),
+                          AppSpacing.hsm,
                           Expanded(
                             child: CustomButton(
-                              text: "Yes",
+                              text: helper?.tr('checkin_popup.yes') ?? '',
                               onPressed: () async {
                                 Navigator.pop(context);
 
@@ -271,29 +277,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomText(
-                        text: "Are you sure to check out?",
+                        text:
+                            helper?.tr('checkout_popup.confirmation_message') ??
+                            '',
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 20.h),
+                      AppSpacing.vmd,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
                             child: CustomButton(
-                              text: "No",
+                              text: helper?.tr('checkout_popup.no') ?? '',
                               variant: ButtonVariant.outline,
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-                          SizedBox(width: 12.w),
+                          AppSpacing.hsm,
                           Expanded(
                             child: CustomButton(
-                              text: "Yes",
+                              text: helper?.tr('checkout_popup.yes') ?? '',
                               onPressed: () async {
                                 Navigator.pop(context);
 
