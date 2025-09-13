@@ -7,15 +7,15 @@ import './core/theme/theme_provider.dart';
 import './core/routes/app_routes.dart';
 import './core/constants/app_route_names.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(
-          create: (_) => LanguageProvider()..setLocale('en'),
-        ), // default language
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ],
       child: const MyApp(),
     ),
@@ -28,6 +28,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
+    if (languageProvider.isLoading) {
+      return const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: Center(child: CircularProgressIndicator())),
+      );
+    }
 
     return ScreenUtilInit(
       designSize: kIsWeb ? const Size(1536, 729) : const Size(360, 825),
@@ -41,6 +49,14 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             initialRoute: AppRouteNames.splash,
             routes: AppRoutes.routes,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('de')],
+            locale: Locale(languageProvider.locale),
           ),
     );
   }

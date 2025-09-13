@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
 
     return MainLayout(
-      title: helper?.tr('privacy_policy_screen.title') ?? '',
+      title: loc.privacyPolicyScreenTitle,
       isBackAction: true,
       currentIndex: 0,
       showBottomNav: false,
@@ -30,25 +28,25 @@ class PrivacyPolicyPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text: helper?.tr('privacy_policy_screen.title') ?? '',
+              text: loc.privacyPolicyScreenTitle,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               color: CustomTextColor.primary,
             ),
-            SizedBox(height: AppSpacing.lg.h),
+            AppSpacing.vlg,
 
             CustomText(
-              text: helper?.tr('privacy_policy_screen.data') ?? '',
+              text: loc.privacyPolicyScreenData,
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),
 
-            SizedBox(height: AppSpacing.lg.h),
+            AppSpacing.vlg,
 
             SizedBox(
               width: double.infinity,
               child: CustomButton(
-                text: helper?.tr('privacy_policy_screen.accept_button') ?? '',
+                text: loc.privacyPolicyScreenAcceptButton,
                 onPressed: () => Navigator.pop(context),
                 variant: ButtonVariant.primary,
               ),

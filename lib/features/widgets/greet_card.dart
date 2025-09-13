@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/core/constants/app_assets.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
-import 'package:flutter_app/provider/language_provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 Widget buildWaveCard(context) {
-  final languageProvider = Provider.of<LanguageProvider>(context);
-  final helper = languageProvider.helper;
+  final loc = AppLocalizations.of(context)!;
 
   String getFormattedDate() {
     return DateFormat('EEEE, MMM d, yyyy').format(DateTime.now());
@@ -26,7 +23,6 @@ Widget buildWaveCard(context) {
           Color(0xFFFD7F2C),
           Color(0xFFFD9346),
         ],
-
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
@@ -57,24 +53,18 @@ Widget buildWaveCard(context) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// Greeting & Date
               Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage(avatarImage),
-                  ),
-                  AppSpacing.hsm,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text:
-                            "${helper?.tr('dashboard_screen.greeting') ?? ''}, Muhammad Zain",
+                        text: "${loc.dashboardScreenGreeting}, Muhammad Zain",
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.w600,
                         color: CustomTextColor.alwaysWhite,
                       ),
-                      // AppSpacing.vxs,
                       CustomText(
                         text: getFormattedDate(),
                         size: CustomTextSize.sm,
@@ -85,6 +75,16 @@ Widget buildWaveCard(context) {
                   ),
                 ],
               ),
+              AppSpacing.vsm,
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildInfoPoint(loc.greetCardHotelsAssigned, "3"),
+                  _buildInfoPoint(loc.greetCardPendingHotels, "3"),
+                  _buildInfoPoint(loc.greetCardCompleteHotels, "0"),
+                ],
+              ),
             ],
           ),
         ),
@@ -93,7 +93,56 @@ Widget buildWaveCard(context) {
   );
 }
 
-// 👇 Same WaveClipper
+/// ✅ Info Point Widget
+Widget _buildInfoPoint(String title, String number) {
+  return Flexible(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Number text responsive
+        FittedBox(
+          child: CustomText(
+            text: number,
+            size: CustomTextSize.lg,
+            fontWeight: FontWeight.bold,
+            color: CustomTextColor.alwaysWhite,
+          ),
+        ),
+        AppSpacing.vxs,
+
+        // Middle line responsive
+        Container(
+          width: 4.w.clamp(2.w, 6.w), // limit width min/max
+          height: 30.h.clamp(20.h, 40.h),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFFFFFF), Color(0xFFFD9346)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(2.r),
+          ),
+        ),
+        AppSpacing.vxs,
+
+        SizedBox(
+          width: 70.w, // fix width relative to screen
+          child: CustomText(
+            text: title,
+            size: CustomTextSize.sm,
+            fontWeight: FontWeight.w500,
+            color: CustomTextColor.alwaysWhite,
+            textAlign: TextAlign.center,
+            maxLines: 2, // overflow handle
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+/// Same WaveClipper
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

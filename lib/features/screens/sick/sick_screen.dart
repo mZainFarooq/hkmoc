@@ -3,10 +3,9 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class SickLeavePage extends StatefulWidget {
   const SickLeavePage({super.key});
@@ -51,11 +50,10 @@ class _SickLeavePageState extends State<SickLeavePage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
 
     return MainLayout(
-      title: helper?.tr("leave_screen.screen_title") ?? "",
+      title: loc.leaveScreenScreenTitle,
       isBackAction: true,
       currentIndex: 3,
       showBottomNav: false,
@@ -72,14 +70,10 @@ class _SickLeavePageState extends State<SickLeavePage>
                 borderSide: BorderSide(
                   color:
                       isDark ? AppColors.lightPrimary : AppColors.darkPrimary,
-                  width: 2, // bottom line thickness
+                  width: 2,
                 ),
-                insets: EdgeInsets.symmetric(
-                  horizontal: 0,
-                ), // full width underline
               ),
-              indicatorSize:
-                  TabBarIndicatorSize.label, // underline only under text
+              indicatorSize: TabBarIndicatorSize.label,
               labelColor:
                   isDark ? AppColors.lightPrimary : AppColors.darkPrimary,
               unselectedLabelColor: Colors.grey,
@@ -90,7 +84,7 @@ class _SickLeavePageState extends State<SickLeavePage>
               tabs: [
                 Tab(
                   child: CustomText(
-                    text: helper?.tr("leave_screen.tabs.apply") ?? "",
+                    text: loc.leaveScreenTabsApply,
                     color: CustomTextColor.primary,
                     size: CustomTextSize.md,
                     fontWeight: FontWeight.w600,
@@ -98,7 +92,7 @@ class _SickLeavePageState extends State<SickLeavePage>
                 ),
                 Tab(
                   child: CustomText(
-                    text: helper?.tr("leave_screen.tabs.history") ?? "",
+                    text: loc.leaveScreenTabsHistory,
                     color: CustomTextColor.primary,
                     size: CustomTextSize.md,
                     fontWeight: FontWeight.w600,
@@ -124,8 +118,8 @@ class _SickLeavePageState extends State<SickLeavePage>
   }
 
   Widget _buildFormUI(BuildContext context, bool isDark) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
@@ -136,7 +130,7 @@ class _SickLeavePageState extends State<SickLeavePage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: helper?.tr("leave_screen.form.apply_title") ?? "",
+            text: loc.leaveScreenFormApplyTitle,
             size: CustomTextSize.md,
             fontWeight: FontWeight.w600,
             color: CustomTextColor.primary,
@@ -144,11 +138,9 @@ class _SickLeavePageState extends State<SickLeavePage>
           AppSpacing.vlg,
 
           // Title Field
-          _styledField(
-            hint: helper?.tr("leave_screen.form.title") ?? "",
-            isDark: isDark,
-          ),
+          _styledField(hint: loc.leaveScreenFormTitle, isDark: isDark),
           AppSpacing.vmd,
+
           // Dates Row
           if (!todayOnly)
             Row(
@@ -157,7 +149,7 @@ class _SickLeavePageState extends State<SickLeavePage>
                   child: GestureDetector(
                     onTap: () => _pickDate(context, true),
                     child: _dateBox(
-                      helper?.tr("leave_screen.form.from_date") ?? "",
+                      loc.leaveScreenFormFromDate,
                       fromDate,
                       isDark,
                     ),
@@ -167,11 +159,7 @@ class _SickLeavePageState extends State<SickLeavePage>
                 Expanded(
                   child: GestureDetector(
                     onTap: () => _pickDate(context, false),
-                    child: _dateBox(
-                      helper?.tr("leave_screen.form.to_date") ?? "",
-                      toDate,
-                      isDark,
-                    ),
+                    child: _dateBox(loc.leaveScreenFormToDate, toDate, isDark),
                   ),
                 ),
               ],
@@ -180,7 +168,7 @@ class _SickLeavePageState extends State<SickLeavePage>
 
           // Details TextArea
           _styledField(
-            hint: helper?.tr("leave_screen.form.details") ?? "",
+            hint: loc.leaveScreenFormDetails,
             isDark: isDark,
             maxLines: 4,
           ),
@@ -190,7 +178,7 @@ class _SickLeavePageState extends State<SickLeavePage>
           SizedBox(
             width: double.infinity,
             child: CustomButton(
-              text: helper?.tr("leave_screen.form.submit") ?? "",
+              text: loc.leaveScreenFormSubmit,
               onPressed: () {},
             ),
           ),
@@ -259,18 +247,20 @@ class _SickLeavePageState extends State<SickLeavePage>
   }
 
   Widget _buildHistoryList(BuildContext context, bool isDark) {
+    final loc = AppLocalizations.of(context)!;
+
     final dummyLeaves = [
       {
         "title": "Bukhar",
         "date": "25 Aug 2025 - 26 Aug 2025",
         "detail": "Severe fever, doctor advised rest for one day.",
-        "status": "Approved",
+        "status": loc.leaveScreenHistoryStatusApproved,
       },
       {
         "title": "Family Work",
         "date": "20 Aug 2025",
         "detail": "Needed to attend urgent family work.",
-        "status": "Cancelled",
+        "status": loc.leaveScreenHistoryStatusCancelled,
       },
     ];
 
@@ -329,7 +319,8 @@ class _SickLeavePageState extends State<SickLeavePage>
                     ),
                     decoration: BoxDecoration(
                       color:
-                          leave["status"] == "Approved"
+                          leave["status"] ==
+                                  loc.leaveScreenHistoryStatusApproved
                               ? Colors.green.withValues(alpha: 0.15)
                               : Colors.red.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12.r),
@@ -338,7 +329,8 @@ class _SickLeavePageState extends State<SickLeavePage>
                       leave["status"]!,
                       style: TextStyle(
                         color:
-                            leave["status"] == "Approved"
+                            leave["status"] ==
+                                    loc.leaveScreenHistoryStatusApproved
                                 ? Colors.green
                                 : Colors.red,
                         fontWeight: FontWeight.w600,

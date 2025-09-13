@@ -7,11 +7,10 @@ import 'package:flutter_app/features/screens/dashboard/hotel_rooms_screen.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/features/widgets/greet_card.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -194,10 +193,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
+
     return MainLayout(
-      title: helper?.tr('dashboard_screen.screen_title') ?? '',
+      title: loc.dashboardScreenScreenTitle,
       currentIndex: 0,
       isSidebarEnabled: true,
       onCheckedIn: () {
@@ -214,7 +213,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             buildWaveCard(context),
             AppSpacing.vmd,
             CustomText(
-              text: helper?.tr('dashboard_screen.assigned_hotels') ?? '',
+              text: loc.dashboardScreenAssignedHotels,
               size: CustomTextSize.md,
               color: CustomTextColor.text,
               fontWeight: FontWeight.w600,
@@ -225,11 +224,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   hotels.isEmpty
                       ? Center(
                         child: CustomText(
-                          text:
-                              helper?.tr(
-                                'dashboard_screen.no_hotels_assigned',
-                              ) ??
-                              '',
+                          text: loc.dashboardScreenNoHotelsAssigned,
                           size: CustomTextSize.md,
                           color: CustomTextColor.textSecondary,
                         ),
@@ -242,7 +237,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             padding: const EdgeInsets.only(bottom: 2),
                             child: Material(
                               color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(12),
                                 splashColor: primary.withValues(alpha: 0.2),
@@ -282,7 +277,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     }
                                   }
                                 },
-
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -315,23 +309,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         Row(
                                           children: [
                                             Container(
-                                              padding: const EdgeInsets.all(
-                                                10,
-                                              ), // icon ke around spacing
+                                              padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: primary.withValues(
                                                   alpha: 0.15,
-                                                ), // halka background color
+                                                ),
                                               ),
                                               child: Icon(
                                                 Icons.hotel,
-                                                color:
-                                                    primary, // icon ka asli color
+                                                color: primary,
                                                 size: 26,
                                               ),
                                             ),
-
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: CustomText(
@@ -377,17 +367,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                       .lightTextSecondary,
                                           thickness: 1,
                                         ),
-
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             CustomButton(
                                               text:
-                                                  helper?.tr(
-                                                    'dashboard_screen.see_details',
-                                                  ) ??
-                                                  '',
+                                                  loc.dashboardScreenSeeDetails,
                                               onPressed: () {},
                                               variant: ButtonVariant.outline,
                                               padding:
@@ -397,11 +383,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                   ),
                                             ),
                                             CustomButton(
-                                              text:
-                                                  helper?.tr(
-                                                    'dashboard_screen.check_in',
-                                                  ) ??
-                                                  '',
+                                              text: loc.dashboardScreenCheckIn,
                                               onPressed: () {},
                                               padding:
                                                   const EdgeInsets.symmetric(

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -129,10 +128,8 @@ class _HistoryScreenState extends State<HistoryScreen>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final t = AppLocalizations.of(context)!;
 
-    // filter hotels list
     final filteredHotels =
         hotels.where((hotel) {
           final nameMatch = hotel["name"].toString().toLowerCase().contains(
@@ -156,19 +153,15 @@ class _HistoryScreenState extends State<HistoryScreen>
     if (searchQuery.isNotEmpty) {
       heading = "";
     } else if (filterFrom != null && filterTo != null) {
-      // yahan direct translated "from" aur "to" use karo
-      String fromText = helper?.tr('history_screen.from') ?? 'From';
-      String toText = helper?.tr('history_screen.to') ?? 'To';
-
       heading =
-          "$fromText ${filterFrom!.toLocal().toString().split(" ").first} "
-          "$toText ${filterTo!.toLocal().toString().split(" ").first}";
+          "${t.historyScreenFrom} ${filterFrom!.toLocal().toString().split(" ").first} "
+          "${t.historyScreenTo} ${filterTo!.toLocal().toString().split(" ").first}";
     } else {
-      heading = "today_completed"; // yahan key ka naam hi save karlo
+      heading = "today_completed";
     }
 
     return MainLayout(
-      title: helper?.tr('history_screen.screen_title') ?? '',
+      title: t.historyScreenScreenTitle,
       currentIndex: 1,
       isSidebarEnabled: true,
       body: Padding(
@@ -179,11 +172,11 @@ class _HistoryScreenState extends State<HistoryScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 🔍 Search
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText:
-                    helper?.tr('history_screen.search_placeholder') ?? '',
+                labelText: t.historyScreenSearchPlaceholder,
                 prefixIcon: const Icon(Icons.search, size: 20),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -212,8 +205,7 @@ class _HistoryScreenState extends State<HistoryScreen>
                           ? CustomText(
                             text:
                                 heading == "today_completed"
-                                    ? helper?.tr('history_screen.$heading') ??
-                                        ''
+                                    ? t.historyScreenTodayCompleted
                                     : heading,
                             size: CustomTextSize.md,
                             fontWeight: FontWeight.bold,
@@ -260,8 +252,7 @@ class _HistoryScreenState extends State<HistoryScreen>
                         const Icon(Icons.filter_list, size: 20),
                         SizedBox(width: 6.w),
                         CustomText(
-                          text:
-                              helper?.tr('history_screen.filter_by_date') ?? '',
+                          text: t.historyScreenFilterByDate,
                           size: CustomTextSize.sm,
                           color:
                               filterFrom != null && filterTo != null
@@ -277,12 +268,13 @@ class _HistoryScreenState extends State<HistoryScreen>
 
             AppSpacing.vsm,
 
+            // Hotel List
             Expanded(
               child:
                   filteredHotels.isEmpty
                       ? Center(
                         child: CustomText(
-                          text: helper?.tr('history_screen.no_results') ?? '',
+                          text: t.historyScreenNoResults,
                           size: CustomTextSize.sm,
                           fontWeight: FontWeight.normal,
                           color: CustomTextColor.textSecondary,
@@ -302,15 +294,11 @@ class _HistoryScreenState extends State<HistoryScreen>
                                   .length;
                           int totalCount = hotel["rooms"].length;
 
-                          String completedText = (helper?.tr(
-                                    'history_screen.completed_rooms',
-                                  ) ??
-                                  '')
-                              .replaceAll(
-                                '{completed}',
-                                completedCount.toString(),
-                              )
-                              .replaceAll('{total}', totalCount.toString());
+                          String completedText = t.historyScreenCompletedRooms(
+                            completedCount,
+                            totalCount,
+                          );
+
                           return Card(
                             color:
                                 isDark

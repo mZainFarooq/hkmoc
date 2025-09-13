@@ -8,6 +8,7 @@ import 'package:flutter_app/features/screens/notfications/notifcations_screen.da
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
 import 'package:flutter_app/features/widgets/language_popup_content.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
@@ -71,9 +72,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
     final themeIcon = isDarkMode ? Icons.dark_mode : Icons.light_mode;
-
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final local = AppLocalizations.of(context)!;
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -151,7 +150,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             margin: EdgeInsets.only(right: 12.w),
             child: CustomButton(
-              text: helper?.tr('app_bar_widget.checkin') ?? '',
+              text: local.appBarWidgetCheckin,
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
 
@@ -184,9 +183,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomText(
-                        text:
-                            helper?.tr('checkin_popup.confirmation_message') ??
-                            '',
+                        text: local.checkinPopupConfirmationMessage,
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
@@ -198,7 +195,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         children: [
                           Expanded(
                             child: CustomButton(
-                              text: helper?.tr('checkin_popup.no') ?? '',
+                              text: local.checkinPopupNo,
                               variant: ButtonVariant.outline,
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -208,7 +205,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           AppSpacing.hsm,
                           Expanded(
                             child: CustomButton(
-                              text: helper?.tr('checkin_popup.yes') ?? '',
+                              text: local.checkinPopupYes,
                               onPressed: () async {
                                 Navigator.pop(context);
 
@@ -265,7 +262,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             margin: EdgeInsets.only(right: 12.w),
             child: CustomButton(
-              text: "Check Out",
+              text: local.appBarWidgetCheckin,
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
                 final String? currentHotelId = hotelInfo?['hotelId'];
@@ -277,9 +274,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomText(
-                        text:
-                            helper?.tr('checkout_popup.confirmation_message') ??
-                            '',
+                        text: local.checkoutPopupConfirmationMessage,
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
@@ -291,7 +286,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         children: [
                           Expanded(
                             child: CustomButton(
-                              text: helper?.tr('checkout_popup.no') ?? '',
+                              text: local.checkinPopupNo,
                               variant: ButtonVariant.outline,
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -301,7 +296,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           AppSpacing.hsm,
                           Expanded(
                             child: CustomButton(
-                              text: helper?.tr('checkout_popup.yes') ?? '',
+                              text: local.checkoutPopupYes,
                               onPressed: () async {
                                 Navigator.pop(context);
 

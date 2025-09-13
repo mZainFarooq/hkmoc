@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/features/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
-import 'package:flutter_app/provider/language_provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import '../../../layout/auth_layout.dart';
 import '../../widgets/custom_button.dart';
 import '../../../core/constants/app_spacing.dart';
+
+// Example
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,11 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
-
     return AuthLayout(
-      title: helper?.tr('login_screen.screen_title') ?? '',
+      title: AppLocalizations.of(context)!.loginScreenScreenTitle,
       isBackAction: false,
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: AppSpacing.md.w),
@@ -63,21 +61,20 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomText(
-              text: helper?.tr('login_screen.welcome') ?? '',
+              text: AppLocalizations.of(context)!.loginScreenWelcome,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               textAlign: TextAlign.center,
             ),
             AppSpacing.vsm,
             CustomText(
-              text: helper?.tr('login_screen.login_desc') ?? '',
+              text: AppLocalizations.of(context)!.loginScreenLoginDesc,
               size: CustomTextSize.sm,
               fontWeight: FontWeight.normal,
               color: CustomTextColor.textSecondary,
               textAlign: TextAlign.center,
             ),
             AppSpacing.vxl,
-
             TextField(
               controller: _emailController,
               focusNode: _emailFocus,
@@ -86,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                labelText: helper?.tr('login_screen.email_label') ?? '',
+                labelText: AppLocalizations.of(context)!.loginScreenEmailLabel,
               ),
               style: TextStyle(fontSize: 16.sp),
             ),
@@ -100,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                labelText: helper?.tr('login_screen.password_label') ?? '',
+                labelText:
+                    AppLocalizations.of(context)!.loginScreenPasswordLabel,
               ),
               style: TextStyle(fontSize: 16.sp),
             ),
@@ -130,30 +128,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   CustomText(
                                     text:
-                                        helper?.tr(
-                                          'login_screen.reset_method_title',
-                                        ) ??
-                                        '',
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.loginScreenResetMethodTitle,
                                     size: CustomTextSize.md,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   AppSpacing.vxs,
-                                  CustomText(
-                                    text:
-                                        helper?.tr(
-                                          'login_screen.reset_method_description',
-                                        ) ??
-                                        '',
-                                    size: CustomTextSize.sm,
-                                    color: CustomTextColor.textSecondary,
-                                  ),
                                 ],
                               ),
                             ),
                             AppSpacing.vmd,
                             CustomButton(
                               text:
-                                  helper?.tr('login_screen.reset_myself') ?? '',
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.loginScreenResetMyself,
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -161,8 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             AppSpacing.vsm,
                             CustomButton(
                               text:
-                                  helper?.tr('login_screen.reset_by_admin') ??
-                                  '',
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.loginScreenResetByAdmin,
                               variant: ButtonVariant.outline,
                               onPressed: () {
                                 Navigator.pop(context);
@@ -175,19 +166,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 },
                 child: CustomText(
-                  text: helper?.tr('login_screen.forgot_password') ?? '',
+                  text: AppLocalizations.of(context)!.loginScreenForgotPassword,
                   size: CustomTextSize.sm,
                   color: CustomTextColor.textSecondary,
                 ),
               ),
             ),
-
             AppSpacing.vxl,
-
             SizedBox(
               width: double.infinity,
               child: CustomButton(
-                text: helper?.tr('login_screen.login_button') ?? '',
+                text: AppLocalizations.of(context)!.loginScreenLoginButton,
 
                 onPressed: _handleLogin,
               ),

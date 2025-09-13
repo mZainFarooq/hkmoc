@@ -4,6 +4,7 @@ import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/features/widgets/full_screen_loader.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -47,8 +48,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
         isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
     final notSelectedColor =
         isDark ? AppColors.darkSurface : AppColors.lightSurface;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final local = AppLocalizations.of(context)!;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -56,7 +56,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
         Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
           child: CustomText(
-            text: helper?.tr('language_popup.title') ?? '',
+            text: local.languagePopupTitle,
             size: CustomTextSize.md,
             fontWeight: FontWeight.w600,
             color: CustomTextColor.primary,
@@ -78,10 +78,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
                 },
                 child: Container(
                   color: isSelected ? selectedColor : notSelectedColor,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 16,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   child: Row(
                     children: [
                       CustomText(text: lang['flag']!, size: CustomTextSize.sm),
@@ -116,7 +113,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
             children: [
               Expanded(
                 child: CustomButton(
-                  text: helper?.tr('language_popup.buttons.cancel') ?? '',
+                  text: local.languagePopupButtonsCancel,
                   variant: ButtonVariant.outline,
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -124,7 +121,7 @@ class _LanguagePopupWidgetState extends State<LanguagePopupWidget> {
               AppSpacing.hmd,
               Expanded(
                 child: CustomButton(
-                  text: helper?.tr('language_popup.buttons.select') ?? '',
+                  text: local.languagePopupButtonsSelect,
                   isDisabled: currentSelected == widget.selectedLanguage,
                   onPressed: () async {
                     final navigator = Navigator.of(context);

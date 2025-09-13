@@ -8,10 +8,9 @@ import 'package:flutter_app/features/screens/notfications/notifcations_screen.da
 import 'package:flutter_app/features/screens/profile/edit_profile.dart';
 import 'package:flutter_app/features/screens/sick/sick_screen.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -72,10 +71,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
+
     return MainLayout(
-      title: helper?.tr('setting_screen.screen_title') ?? '',
+      title: loc.settingScreenScreenTitle,
       currentIndex: 2,
       isSidebarEnabled: true,
       body: Padding(
@@ -88,20 +87,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 🔹 Account Section
-              _buildSectionTitle(
-                helper?.tr('setting_screen.account_section') ?? '',
-              ),
+              _buildSectionTitle(loc.settingScreenAccountSection),
               _buildTile(
                 context: context,
                 icon: Icons.person_outline,
-                title: helper?.tr('setting_screen.edit_profile') ?? '',
+                title: loc.settingScreenEditProfile,
                 onTap:
                     () => CustomNavigation.push(context, EditProfileScreen()),
               ),
               _buildTile(
                 context: context,
                 icon: Icons.notifications_outlined,
-                title: helper?.tr('setting_screen.notifications') ?? '',
+                title: loc.settingScreenNotifications,
                 onTap:
                     () => CustomNavigation.push(
                       context,
@@ -111,19 +108,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildTile(
                 context: context,
                 icon: Icons.sick_outlined,
-                title: helper?.tr('setting_screen.sick_leave') ?? '',
+                title: loc.settingScreenSickLeave,
                 onTap: () {
                   CustomNavigation.push(context, SickLeavePage());
                 },
               ),
 
-              _buildSectionTitle(
-                helper?.tr('setting_screen.preferences_section') ?? '',
-              ),
+              _buildSectionTitle(loc.settingScreenPreferencesSection),
               _buildTile(
                 context: context,
                 icon: Icons.help_outline,
-                title: helper?.tr('setting_screen.help_support') ?? '',
+                title: loc.settingScreenHelpSupport,
                 onTap: () {
                   CustomNavigation.push(context, HelpAndSupportScreen());
                 },
@@ -131,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildTile(
                 context: context,
                 icon: Icons.info_outline,
-                title: helper?.tr('setting_screen.about_app') ?? '',
+                title: loc.settingScreenAboutApp,
                 onTap: () {
                   CustomNavigation.push(context, AboutAppScreen());
                 },

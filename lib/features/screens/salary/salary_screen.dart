@@ -3,9 +3,8 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class SalaryScreen extends StatelessWidget {
   const SalaryScreen({super.key});
@@ -35,15 +34,14 @@ class SalaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final local = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? AppColors.darkSurface : AppColors.lightSurface;
     final primaryColor =
         isDark ? AppColors.lightPrimary : AppColors.darkPrimary;
 
     return MainLayout(
-      title: helper?.tr('salary_screen.screen_title') ?? '',
+      title: local.salaryScreenScreenTitle,
       isBackAction: true,
       currentIndex: 3,
       showBottomNav: false,
@@ -79,32 +77,28 @@ class SalaryScreen extends StatelessWidget {
                 Divider(color: Colors.grey.shade400),
                 AppSpacing.vsm,
                 _buildRow(
-                  helper?.tr('salary_screen.total_days') ?? '',
+                  local.salaryScreenTotalDays,
                   salary["totalDays"].toString(),
                 ),
                 _buildRow(
-                  helper?.tr('salary_screen.leaves_taken') ?? '',
+                  local.salaryScreenLeavesTaken,
                   salary["leaves"].toString(),
                 ),
                 _buildRow(
-                  helper?.tr('salary_screen.basic_salary') ?? '',
-                  "${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["basicSalary"]}",
+                  local.salaryScreenBasicSalary,
+                  "${local.salaryScreenCurrencySymbol}${salary["basicSalary"]}",
                 ),
                 _buildRow(
-                  helper?.tr('salary_screen.deductions') ?? '',
-                  "${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["deduction"]}",
+                  local.salaryScreenDeductions,
+                  "${local.salaryScreenCurrencySymbol}${salary["deduction"]}",
                 ),
                 _buildRow(
-                  helper?.tr('salary_screen.net_salary') ?? '',
-
-                  " ${helper?.tr('salary_screen.currency_symbol') ?? ''}${salary["netSalary"]}",
+                  local.salaryScreenNetSalary,
+                  "${local.salaryScreenCurrencySymbol}${salary["netSalary"]}",
                   valueColor: primaryColor,
                   fontWeight: FontWeight.w600,
                 ),
-                _buildRow(
-                  helper?.tr('salary_screen.reason') ?? '',
-                  salary["deductionReason"],
-                ),
+                _buildRow(local.salaryScreenReason, salary["deductionReason"]),
               ],
             ),
           );

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class PermissionsPage extends StatefulWidget {
   const PermissionsPage({super.key});
@@ -24,12 +23,32 @@ class _PermissionsPageState extends State<PermissionsPage> {
     "storage": false,
   };
 
+  /// 🔧 Helper method to get localized label
+  String getPermissionLabel(String key, AppLocalizations loc) {
+    switch (key) {
+      case 'notifications':
+        return loc.appPermissionsScreenNotifications;
+      case 'camera':
+        return loc.appPermissionsScreenCamera;
+      case 'location':
+        return loc.appPermissionsScreenLocation;
+      case 'microphone':
+        return loc.appPermissionsScreenMicrophone;
+      case 'contacts':
+        return loc.appPermissionsScreenContacts;
+      case 'storage':
+        return loc.appPermissionsScreenStorage;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final helper = Provider.of<LanguageProvider>(context).helper;
+    final loc = AppLocalizations.of(context)!;
 
     return MainLayout(
-      title: helper?.tr("app_permissions_screen.title") ?? '',
+      title: loc.appPermissionsScreenTitle,
       isBackAction: true,
       currentIndex: 0,
       showBottomNav: false,
@@ -49,7 +68,7 @@ class _PermissionsPageState extends State<PermissionsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        text: helper?.tr("app_permissions_screen.$key") ?? key,
+                        text: getPermissionLabel(key, loc), // ✅ Correct label
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: CustomTextColor.text,

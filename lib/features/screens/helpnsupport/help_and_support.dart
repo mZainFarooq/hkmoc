@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class HelpAndSupportScreen extends StatelessWidget {
   const HelpAndSupportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
-
+    final local = AppLocalizations.of(context)!;
     return MainLayout(
-      title: helper?.tr("help_n_support_screen.screen_title") ?? "",
+      title: local.helpNSupportScreenScreenTitle,
       isBackAction: true,
       currentIndex: 4,
       showBottomNav: false,
@@ -26,66 +23,60 @@ class HelpAndSupportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text: helper?.tr("help_n_support_screen.need_help_title") ?? "",
-              size: CustomTextSize.xl,
+              text: local.helpNSupportScreenScreenTitle,
+              size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               color: CustomTextColor.text,
             ),
             AppSpacing.vmd,
             CustomText(
-              text:
-                  helper?.tr("help_n_support_screen.need_help_description") ??
-                  "",
+              text: local.helpNSupportScreenNeedHelpDescription,
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),
             AppSpacing.vlg,
 
             CustomText(
-              text: helper?.tr("help_n_support_screen.contact_us_title") ?? "",
+              text: local.helpNSupportScreenContactUsTitle,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.w600,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vsm,
             CustomText(
-              text:
-                  helper?.tr("help_n_support_screen.contact_us_description") ??
-                  "",
+              text: local.helpNSupportScreenContactUsDescription,
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),
             AppSpacing.vsm,
             CustomText(
-              text: helper?.tr("help_n_support_screen.email") ?? "",
+              text: local.helpNSupportScreenEmail,
               size: CustomTextSize.sm,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vxs,
             CustomText(
-              text: helper?.tr("help_n_support_screen.phone") ?? "",
+              text: local.helpNSupportScreenPhone,
               size: CustomTextSize.sm,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vxs,
             CustomText(
-              text: helper?.tr("help_n_support_screen.chat") ?? "",
+              text: local.helpNSupportScreenChat,
               size: CustomTextSize.sm,
               color: CustomTextColor.primary,
             ),
 
             AppSpacing.vlg,
             CustomText(
-              text:
-                  helper?.tr("help_n_support_screen.additional_tips_title") ??
-                  "",
+              text: local.helpNSupportScreenAdditionalTipsTitle,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.w600,
               color: CustomTextColor.primary,
             ),
             AppSpacing.vsm,
             CustomText(
-              text: helper?.tr("help_n_support_screen.additional_tips") ?? "",
+              text: local.helpNSupportScreenAdditionalTips,
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),

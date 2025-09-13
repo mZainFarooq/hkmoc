@@ -4,10 +4,9 @@ import 'package:flutter_app/core/constants/app_colors.dart';
 import 'package:flutter_app/core/constants/app_fonts_sizes.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -79,10 +78,10 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final loc = AppLocalizations.of(context)!;
+
     return MainLayout(
-      title: helper?.tr('edit_profile_screen.screen_title') ?? '',
+      title: loc.editProfileScreenScreenTitle,
       isBackAction: true,
       currentIndex: 3,
       showBottomNav: false,
@@ -119,29 +118,28 @@ class EditProfileScreen extends StatelessWidget {
             SizedBox(height: AppSpacing.lg.h),
 
             _buildTextField(
-              label: helper?.tr('edit_profile_screen.labels.first_name') ?? '',
-              hint: helper?.tr('edit_profile_screen.hints.first_name') ?? '',
+              label: loc.editProfileScreenLabelsFirstName,
+              hint: loc.editProfileScreenHintsFirstName,
               isDark: isDark,
             ),
             _buildTextField(
-              label: helper?.tr('edit_profile_screen.labels.last_name') ?? '',
-              hint: helper?.tr('edit_profile_screen.hints.last_name') ?? '',
+              label: loc.editProfileScreenLabelsLastName,
+              hint: loc.editProfileScreenHintsLastName,
               isDark: isDark,
             ),
             _buildTextField(
-              label: helper?.tr('edit_profile_screen.labels.email') ?? '',
-              hint: helper?.tr('edit_profile_screen.hints.email') ?? '',
+              label: loc.editProfileScreenLabelsEmail,
+              hint: loc.editProfileScreenHintsEmail,
               isDark: isDark,
             ),
             _buildTextField(
-              label:
-                  helper?.tr('edit_profile_screen.labels.phone_number') ?? '',
-              hint: helper?.tr('edit_profile_screen.hints.phone_number') ?? '',
+              label: loc.editProfileScreenLabelsPhoneNumber,
+              hint: loc.editProfileScreenHintsPhoneNumber,
               isDark: isDark,
             ),
             _buildTextField(
-              label: helper?.tr('edit_profile_screen.labels.address') ?? '',
-              hint: helper?.tr('edit_profile_screen.hints.address') ?? '',
+              label: loc.editProfileScreenLabelsAddress,
+              hint: loc.editProfileScreenHintsAddress,
               isMultiline: true,
               isDark: isDark,
             ),
@@ -161,7 +159,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 onPressed: () {},
                 child: CustomText(
-                  text: helper?.tr('edit_profile_screen.button') ?? '',
+                  text: loc.editProfileScreenButton,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: CustomTextColor.alwaysWhite,

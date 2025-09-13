@@ -9,6 +9,7 @@ import 'package:flutter_app/features/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter_app/features/widgets/custom_button.dart';
 import 'package:flutter_app/features/widgets/custom_popup.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/layout/main_layout.dart';
 import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -497,8 +498,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final local = AppLocalizations.of(context)!;
 
     return PopScope(
       canPop: true,
@@ -533,9 +533,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
 
                       /// Heading
                       CustomText(
-                        text:
-                            helper?.tr('hotel_room_screen.rooms_to_clean') ??
-                            '',
+                        text: local.hotelRoomScreenRoomsToClean,
                         size: CustomTextSize.lg,
                         fontWeight: FontWeight.bold,
                         color: CustomTextColor.text,
@@ -643,7 +641,6 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                                         color: Colors.white,
                                       ),
                                       backgroundColor: Colors.orange,
-                                      label: "Camera",
                                       onTap: () async {
                                         final images =
                                             await FileUtils.pickMultipleImages();
@@ -659,7 +656,6 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                                         color: Colors.white,
                                       ),
                                       backgroundColor: Colors.orange,
-                                      label: "Attach File",
                                       onTap: () async {
                                         final docs =
                                             await FileUtils.pickMultipleDocuments();
@@ -694,7 +690,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                                               color: CustomTextColor.text,
                                               textAlign: TextAlign.center,
                                             ),
-                                            SizedBox(height: 20.h),
+                                            AppSpacing.vlg,
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
@@ -711,7 +707,7 @@ class _HotelRoomsWithCheckInState extends State<HotelRoomsWithCheckIn> {
                                                     },
                                                   ),
                                                 ),
-                                                SizedBox(width: 12.w),
+                                                AppSpacing.hmd,
                                                 Expanded(
                                                   child: CustomButton(
                                                     text: "Yes",

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
-import 'package:flutter_app/provider/language_provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
-import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -22,23 +21,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
     final activeColor = isDark ? AppColors.darkPrimary : AppColors.lightPrimary;
     final inactiveColor =
         isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
-
+    final local = AppLocalizations.of(context)!;
     final items = [
       {
         'icon': Icons.dashboard,
-        'label': helper?.tr('bottom_navigator.dashboard') ?? '',
+        'label': local.bottomNavigatorDashboard,
         'route': '/dashboard',
       },
       {
         'icon': Icons.history,
-        'label': helper?.tr('bottom_navigator.history') ?? '',
+        'label': local.bottomNavigatorHistory,
         'route': '/history',
       },
       {
         'icon': Icons.settings,
-        'label': helper?.tr('bottom_navigator.setting') ?? '',
+        'label': local.bottomNavigatorSetting,
         'route': '/settings',
       },
     ];

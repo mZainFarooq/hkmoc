@@ -2,49 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/constants/app_spacing.dart';
 import 'package:flutter_app/features/widgets/custom_text.dart';
 import 'package:flutter_app/layout/main_layout.dart';
-import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class AboutAppScreen extends StatelessWidget {
   const AboutAppScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final helper = languageProvider.helper;
+    final local = AppLocalizations.of(context)!;
 
     final features = [
       {
-        "title": helper?.tr("about_app_screen.feature_0_title") ?? "",
-        "description":
-            helper?.tr("about_app_screen.feature_0_description") ?? "",
+        "title": local.aboutAppScreenFeature0Title,
+        "description": local.aboutAppScreenFeature0Description,
       },
       {
-        "title": helper?.tr("about_app_screen.feature_1_title") ?? "",
-        "description":
-            helper?.tr("about_app_screen.feature_1_description") ?? "",
+        "title": local.aboutAppScreenFeature1Title,
+        "description": local.aboutAppScreenFeature1Description,
       },
       {
-        "title": helper?.tr("about_app_screen.feature_2_title") ?? "",
-        "description":
-            helper?.tr("about_app_screen.feature_2_description") ?? "",
+        "title": local.aboutAppScreenFeature2Title,
+        "description": local.aboutAppScreenFeature2Description,
       },
       {
-        "title": helper?.tr("about_app_screen.feature_3_title") ?? "",
-        "description":
-            helper?.tr("about_app_screen.feature_3_description") ?? "",
+        "title": local.aboutAppScreenFeature3Title,
+        "description": local.aboutAppScreenFeature3Description,
       },
       {
-        "title": helper?.tr("about_app_screen.feature_4_title") ?? "",
-        "description":
-            helper?.tr("about_app_screen.feature_4_description") ?? "",
+        "title": local.aboutAppScreenFeature4Title,
+        "description": local.aboutAppScreenFeature4Description,
       },
     ];
 
     return MainLayout(
       currentIndex: 4,
-      title: helper?.tr("about_app_screen.screen_title") ?? "",
+      title: local.aboutAppScreenScreenTitle,
       isBackAction: true,
       showBottomNav: false,
       body: SingleChildScrollView(
@@ -55,7 +48,7 @@ class AboutAppScreen extends StatelessWidget {
           children: [
             // App Name
             CustomText(
-              text: helper?.tr("about_app_screen.app_name") ?? "",
+              text: local.aboutAppScreenAppName,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.bold,
               color: CustomTextColor.text,
@@ -64,7 +57,7 @@ class AboutAppScreen extends StatelessWidget {
 
             // Description
             CustomText(
-              text: helper?.tr("about_app_screen.description") ?? "",
+              text: local.aboutAppScreenDescription,
               size: CustomTextSize.sm,
               color: CustomTextColor.text,
             ),
@@ -72,7 +65,7 @@ class AboutAppScreen extends StatelessWidget {
 
             // Features Title
             CustomText(
-              text: helper?.tr("about_app_screen.features_title") ?? "",
+              text: local.aboutAppScreenFeaturesTitle,
               size: CustomTextSize.lg,
               fontWeight: FontWeight.w600,
               color: CustomTextColor.primary,
@@ -88,7 +81,7 @@ class AboutAppScreen extends StatelessWidget {
 
             // Version
             CustomText(
-              text: helper?.tr("about_app_screen.version") ?? "",
+              text: local.aboutAppScreenVersion,
               fontSize: 12.sp,
               color: CustomTextColor.primary,
             ),
@@ -96,7 +89,7 @@ class AboutAppScreen extends StatelessWidget {
 
             // Developed By
             CustomText(
-              text: helper?.tr("about_app_screen.developed_by") ?? "",
+              text: local.aboutAppScreenDevelopedBy,
               fontSize: 14.sp,
               color: CustomTextColor.textSecondary,
             ),
