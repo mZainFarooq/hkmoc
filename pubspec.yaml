@@ -70,8 +70,6 @@ flutter:
   generate: true
   assets:
     - assets/images/
-    - lib/l10n/en.json
-    - lib/l10n/de.json
   fonts:
     - family: Poppins
       fonts:
